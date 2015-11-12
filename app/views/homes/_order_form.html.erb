@@ -1,0 +1,12 @@
+<%= form_tag('/homes/create_order') do %>
+  <%= label_tag(:email, "Email:") %>
+  <%= text_field_tag(:email) %>
+  <%= label_tag(:first_name, " first_name:") %>
+  <%= text_field_tag(:first_name) %>
+  <%= label_tag(:last_name, "last_name:") %>
+  <%= text_field_tag(:last_name) %>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+<% end %>
+

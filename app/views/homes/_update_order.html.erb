@@ -1,0 +1,15 @@
+<%= form_tag('/homes/update_order', method: :put) do %>
+  <%= label_tag(:email, "Email:") %>
+  <%= text_field_tag(:email) %>
+  <%= label_tag(:first_name, " first_name:") %>
+  <%= text_field_tag(:first_name) %>
+  <%= label_tag(:last_name, "last_name:") %>
+  <%= text_field_tag(:last_name) %>
+  <%= label_tag(:quantity, "quantity:") %>
+  <%= text_field_tag(:quantity) %>
+  <%= hidden_field_tag :id, params[:id] %>
+  <div class="actions">
+    <%= submit_tag %>
+  </div>
+<% end %>
+

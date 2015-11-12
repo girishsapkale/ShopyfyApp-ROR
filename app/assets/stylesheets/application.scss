@@ -11,5 +11,11 @@
  * file per style scope.
  *
  *= require_tree .
+ *= require morris
  *= require_self
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "AdminLTE/AdminLTE";
+@import "AdminLTE/skins/skin-blue";
+

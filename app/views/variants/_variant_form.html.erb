@@ -1,0 +1,36 @@
+<%= form_tag("/variants/#{@product.id}", method: :put) do %>
+<div class="table-responsive">
+  <table id="variants" class="table table-striped table-bordered" cellspacing="0" width="100%">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <!-- <th>Variant ID</th> -->
+        <th>Variant title</th>
+        <th>Variant sku</th>
+        <th>Diamond Value</th>
+        <th>New Diamond Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @product.variants.each do |variant| %>
+      <tr>
+        <td><%= @product.title %></td>
+        <!-- <td><%#= variant.id %></td> -->
+        <td><%= variant.title %></td>
+        <td><%= variant.sku %></td>
+        <td><%= variant.option2 %></td>
+        <td><%= text_field_tag "updated_price_of_diamond_#{variant.id}", nil, :placeholder => 'New Diamond Value..' %></td>
+        <!-- <td><%= variant.grams %>|</td> -->
+        <!-- <td><%#= variant.diamond %></td> -->
+        <!-- <td><%#= link_to 'Show', variant %></td>
+          <td><%#= link_to 'Edit', edit_variant_path(variant) %></td>
+          <td><%#= link_to 'Destroy', variant, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="actions">
+  <button type="submit" class="btn btn-primary">Update Price</button>
+  </div>
+<% end %>
