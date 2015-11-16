@@ -1,5 +1,5 @@
 class HomesController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :destroy]
 
   # GET /homes
   # GET /homes.json
@@ -7,7 +7,6 @@ class HomesController < ApplicationController
     #@products = ShopifyAPI::Product.all
     #@orders = ShopifyAPI::Order.all
     @users = User.all
-    puts"+++++++++++++++++++++++++++#{@users.first.inspect}"
   end
 
   def show
@@ -18,24 +17,27 @@ class HomesController < ApplicationController
   end
 
   def edit
+    @home = Home.find(params[:id])
   end
 
   def edit_order
   end
 
-  def create_product        
-    new_product = ShopifyAPI::Product.new
-    new_product.title = params[:title]
-    new_product.product_type = params[:product_type]
-    new_product.vendor = params[:vendor]
+  def create_product
+    new_obj = Home.new(:shop_url => params[:base_url])
+    #new_obj.save
+    # new_product = ShopifyAPI::Product.new
+    # new_product.title = params[:title]
+    # new_product.product_type = params[:product_type]
+    # new_product.vendor = params[:vendor]
     
     respond_to do |format|
-      if new_product.save
-        format.html { redirect_to root_path, notice: 'Home was successfully created.' }
-        format.json { render :show, status: :created, location: @home }
+      if new_obj.save
+        format.html { redirect_to root_path, notice: 'Home was successfully created/updated.' }
+        #format.json { render :show, status: :created, location: @home }
       else
         format.html { render :new }
-        format.json { render json: @home.errors, status: :unprocessable_entity }
+        #format.json { render json: @home.errors, status: :unprocessable_entity }
       end
     end
   end

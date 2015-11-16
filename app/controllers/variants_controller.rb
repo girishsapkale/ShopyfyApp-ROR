@@ -68,6 +68,38 @@ class VariantsController < ApplicationController
     end
   end
 
+  def update_variants
+    if request.put?
+      @params_query = params[:query]
+      products = ShopifyAPI::Product.all
+      @productss = products      
+    else
+      #display only form
+    end
+  end
+
+  def variants_update
+    notice = 'please try again!'
+    params.each do |layer_number, params|      
+      if layer_number.include? "updated_price_of_variant_"
+        result = layer_number.gsub(/\D/, '')
+                
+        variant = ShopifyAPI::Variant.find(result)
+        
+        updated_price = params["#{layer_number}"]
+        
+        updated_price = variant.price.to_i + params.to_i
+        
+        variant.price = updated_price.to_s
+        variant.save
+        notice = 'Variants price was successfully updated.'       
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to update_variants_path, notice: notice }      
+    end    
+  end
+
   # DELETE /variants/1
   # DELETE /variants/1.json
   def destroy

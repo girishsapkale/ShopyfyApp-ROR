@@ -33,8 +33,12 @@ Rails.application.routes.draw do
   root 'homes#index'
 
   # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
+  get 'update_variants' => 'variants#update_variants', as: :update_variants
+  put 'update_variants' => 'variants#update_variants'
+  put 'variants_update' => 'variants#variants_update'
+  get 'add_new_one' => 'homes#add_new_one'
+  #get 'variants_update' => 'variants#variants_update', as: :variants_update
+  
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
 

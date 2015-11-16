@@ -1,11 +1,6 @@
-
 <%= form_tag('/homes/create_product') do %>
-  <%= label_tag(:title, "Title:") %>
-  <%= text_field_tag(:title) %>
-  <%= label_tag(:product_type, " Product type:") %>
-  <%= text_field_tag(:product_type) %>
-  <%= label_tag(:vendor, "vendor:") %>
-  <%= text_field_tag(:vendor) %>
+  <%= label_tag(:title, "Base URL:") %>
+  <%= text_field_tag 'base_url', '', size: 100 %><br />
   <div class="actions">
     <%= submit_tag %>
   </div>
