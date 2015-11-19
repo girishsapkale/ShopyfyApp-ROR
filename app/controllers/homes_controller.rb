@@ -9,9 +9,10 @@ class HomesController < ApplicationController
     metals_list = []
     @products.each do |product|
       if product.options.first.name == 'Metal'
+
           metals = product.options.first.values
           metals.each do |metal_title|
-           metals_list << metal_title
+          metals_list << metal_title
           end           
       end
     end

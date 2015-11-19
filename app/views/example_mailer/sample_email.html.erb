@@ -5,14 +5,25 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Hi Admin</h1>
+    <h3>Hi Admin</h3>
     <p>
       <table>
       	<tr>
       		<td>Total no. of updated variants: <%= @count%></td> 
-
-      		<td></td>
-      	</tr>
+        </tr>
+        <tr>
+          <td>Metal's where price is ZERO in database and tried to update</td> 
+        </tr>
+        <tr>
+          <table>
+            <tr> 
+              <th>Metals</th>
+            </tr>
+            <% @mailer_metal.each do |metal|%>
+              <tr><td><%= metal%></td> </tr> 
+              <% end %>
+          </table>
+        </tr>
       </table>
     </p>
   </body>
