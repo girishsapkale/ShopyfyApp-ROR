@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post 'create_product'
       put 'update_product'
       put 'update_order'
+      put 'update_metals'
     end
     member do
       get 'edit_order'
@@ -37,7 +38,9 @@ Rails.application.routes.draw do
   put 'update_variants' => 'variants#update_variants'
   put 'variants_update' => 'variants#variants_update'
   get 'add_new_one' => 'homes#add_new_one'
-  #get 'variants_update' => 'variants#variants_update', as: :variants_update
+  get 'update_variants_value' => 'variants#update_variants_value', as: :update_variants_value
+  put 'update_variants_value' => 'variants#update_variants_value'
+  put 'variants_update_title' => 'variants#variants_update_title'
   
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

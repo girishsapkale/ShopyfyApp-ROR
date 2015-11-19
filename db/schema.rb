@@ -49,8 +49,12 @@ ActiveRecord::Schema.define(version: 20151110102658) do
   end
 
   create_table "variants", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "metal_title", limit: 255, default: "", null: false
+    t.string   "metal_price", limit: 255
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
   end
+
+  add_index "variants", ["metal_title"], name: "index_variants_on_metal_title", unique: true, using: :btree
 
 end

@@ -78,6 +78,41 @@ class VariantsController < ApplicationController
     end
   end
 
+  def update_variants_value
+    if request.put?      
+      params_variant = params[:query_1]
+      params_new_price = params[:query_2]
+      if( !params[:query_1].empty? || !params[:query_2].empty?)
+        products = ShopifyAPI::Product.all
+        count = 0
+        @mailer_variant = []
+        products.each do |product|        
+          product.variants.each do |variant|
+           if variant.option2 == params_variant
+
+            db_price_value = Variant.where(:metal_title => variant.option1).first.metal_price
+            if db_price_value.blank?
+              @mailer_variant << variant
+            end
+              new_price = params_new_price.to_i + db_price_value.to_i
+              variant.price = new_price.to_s
+              variant.save
+              count = count + 1 
+            end
+          end
+        end
+      end
+      #@productss = products      
+      flash[:notice] = " #{count} Variants price was successfully updated."
+
+      # Sends email to user when user is created.
+      ExampleMailer.sample_email(User.first, @mailer_variant, count).deliver
+
+    else
+      #display only form
+    end
+  end
+
   def variants_update
     notice = 'please try again!'
     params.each do |layer_number, params|      
@@ -100,6 +135,28 @@ class VariantsController < ApplicationController
     end    
   end
 
+  def variants_update_title
+    notice = 'please try again!'
+    params.each do |layer_number, params|      
+      if layer_number.include? "updated_price_of_variant_"
+        result = layer_number.gsub(/\D/, '')
+                
+        variant = ShopifyAPI::Variant.find(result)
+        
+        updated_price = params["#{layer_number}"]
+        
+        updated_price = variant.price.to_i + params.to_i
+        
+        variant.price = updated_price.to_s
+        variant.save
+        notice = 'Variants price was successfully updated.'       
+      end
+    end
+    respond_to do |format|
+      format.html { redirect_to update_variants_path, notice: notice }      
+    end
+  end
+
   # DELETE /variants/1
   # DELETE /variants/1.json
   def destroy
@@ -118,6 +175,30 @@ class VariantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def variant_params
-      params[:variant]
+      #params[:variant]
+      params.require(:variant).permit(:k14_white_recycled_price, :k14_yellow_recycled_price,
+       :k14_rose_recycled_price, :k18_white_recycled_price, :k18_rose_recycled_price, :platinum_recycled_price,
+       :k18_yellow_recycled_price)
+    end
+
+    def check_price(value)
+      if value == '14k white (recycled)'
+        Variant.first.k14_white_recycled_price
+      elsif value == '14k yellow (recycled)'
+        Variant.first.k14_yellow_recycled_price
+      elsif value == '14k rose (recycled)'
+        Variant.first.k14_rose_recycled_price
+      elsif value == '18k white (recycled)'
+        Variant.first.k18_white_recycled_price
+      elsif value == '18k yellow (recycled)'
+        Variant.first.k18_yellow_recycled_price
+      elsif value == '18k rose (recycled)'
+        Variant.first.k18_rose_recycled_price
+      elsif value == 'Platinum (recycled)'
+        Variant.first.platinum_recycled_price        
+      else
+        1
+      end 
+          
     end
 end
