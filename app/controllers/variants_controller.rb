@@ -80,10 +80,16 @@ class VariantsController < ApplicationController
 
   def update_variants_value
     if request.put?      
-      params_variant = params[:query_1]
+      params_variant = params[:query_1].downcase
       params_new_price = params[:query_2]
       if( !params[:query_1].empty? || !params[:query_2].empty?)
-        products = ShopifyAPI::Product.all
+        @total_products = ShopifyAPI::Product.count
+        @total_pages = (@total_products / 250.0).ceil
+        products = []
+        @total_pages.times do |x|
+          page = x+1
+          products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+        end
         count = 0
         @mailer_variant = []
         @metal_blank_product = []

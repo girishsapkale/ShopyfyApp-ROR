@@ -4,15 +4,20 @@ class HomesController < ApplicationController
   # GET /homes
   # GET /homes.json
   def index
-    @products = ShopifyAPI::Product.all
+    @total_products = ShopifyAPI::Product.count
+    @total_pages = (@total_products / 250.0).ceil
+    @products = []
+    @total_pages.times do |x|
+      page = x+1
+      @products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+    end
     variants = Variant.all
     metals_list = []
     @products.each do |product|
       if product.options.first.name == 'Metal'
-
           metals = product.options.first.values
           metals.each do |metal_title|
-          metals_list << metal_title
+          metals_list << metal_title.downcase
           end           
       end
     end
@@ -32,6 +37,7 @@ class HomesController < ApplicationController
       end
       
       new_metal = @metals - @a
+     
       if new_metal.present?
         Variant.create(:metal_title => new_metal.first) 
       end
