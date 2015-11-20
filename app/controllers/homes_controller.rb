@@ -109,4 +109,16 @@ class HomesController < ApplicationController
     end
   end
   
+  def shopify_url
+  end
+
+  def update_shopify_url
+    url = params[:url]
+    Shop.create(:url => url)
+    ShopifyAPI::Base.clear_session
+    shop_url = Shop.last.url
+    ShopifyAPI::Base.site = shop_url
+    redirect_to shopify_url_homes_path, notice: 'SHOP URL successfully updated.'
+  end
+ 
 end

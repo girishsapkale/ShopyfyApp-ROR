@@ -23,19 +23,10 @@
         <!-- User Account Menu -->
         <li class="dropdown user user-menu">
           <!-- Menu Toggle Button -->
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">
           <span class="hidden-xs"><%= current_user.email %></span>
           </a>
-          <ul class="dropdown-menu">
-            <!-- The user image in the menu -->
-            <li class="user-header">
-              <img src="/assets/user2-160x160.jpg" class="img-circle" alt="User Image" />
-              <p>
-                <%= current_user.email %>
-                <small>Last login at <%= current_user.last_sign_in_at %></small>
-              </p>
-            </li>
-          </ul>
+        
         </li>
         <li>
           <%= link_to " Logout", destroy_user_session_path, class: 'fa glyphicon glyphicon-log-out' %>

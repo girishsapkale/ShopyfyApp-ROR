@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       put 'update_metals'
       get 'diamond_values'
       put 'update_variants_value'
+      get 'shopify_url'
+      put 'update_shopify_url'
     end
   end
 end
