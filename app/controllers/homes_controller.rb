@@ -1,8 +1,5 @@
 class HomesController < ApplicationController
-  before_action :set_product, only: [:show, :destroy]
-
-  # GET /homes
-  # GET /homes.json
+  
   def index
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
@@ -48,36 +45,6 @@ class HomesController < ApplicationController
 
   end
 
-  def show
-  end
-
-  def new
-   
-  end
-
-  def edit
-    @home = Home.find(params[:id])
-  end
-
-  def edit_order
-  end
-
-  
-  # DELETE /homes/1
-  # DELETE /homes/1.json
-  def destroy
-    @product.destroy
-    respond_to do |format|
-      format.html { redirect_to homes_url, notice: 'Home was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
-
-  def new_order
-    
-  end
-
-
   def update_metals
     count = params[:ids].count
     count.times do |x|
@@ -86,11 +53,50 @@ class HomesController < ApplicationController
     end
     redirect_to root_path, notice: 'Metal updated.' 
   end
+  
+  def update_variants_value
+    if request.put?      
+      params_variant = params[:query_1].downcase
+      params_new_price = params[:query_2]
+      if( !params[:query_1].empty? || !params[:query_2].empty?)
+        @total_products = ShopifyAPI::Product.count
+        @total_pages = (@total_products / 250.0).ceil
+        products = []
+        @total_pages.times do |x|
+          page = x+1
+          products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+        end
+        count = 0
+        @mailer_variant = []
+        @metal_blank_product = []
+        @mailer_metal = []
+        products.each do |product|        
+          product.variants.each do |variant|
+           if variant.option2 == params_variant
 
-  private
-    
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def home_params
-       params[:home]
+            db_price_value = Variant.where(:metal_title => variant.option1).first.metal_price
+            if db_price_value.blank?
+              @metal_blank_product << product
+              @mailer_variant << variant
+              @mailer_metal << variant.option1
+            end
+              new_price = params_new_price.to_i + db_price_value.to_i
+              variant.price = new_price.to_s
+              variant.save
+              count = count + 1 
+            end
+          end
+        end
+      end
+      
+      flash[:notice] = " #{count} Variants price was successfully updated."
+
+      # Sends email to user when user is created.
+      ExampleMailer.sample_email(User.first, @mailer_variant, count, @metal_blank_product, @mailer_metal).deliver
+
+    else
+      #display only form
     end
+  end
+  
 end
