@@ -19,30 +19,23 @@ class HomesController < ApplicationController
       end
     end
     @metals = metals_list.uniq
-   
     if variants.blank?
         @metals.each do |metal_title|
            Variant.create(:metal_title => metal_title)
         end
     end
     @a=Variant.pluck(:metal_title)
-    
     unless @metals & @a == @metals
       old_metal = @a - @metals
       if old_metal.present?
         Variant.find_by_metal_title(old_metal.first).destroy
       end
-      
       new_metal = @metals - @a
-     
       if new_metal.present?
         Variant.create(:metal_title => new_metal.first) 
       end
     end
     @variants = Variant.all
-    
-    @users = User.all
-
   end
 
   def update_metals
@@ -54,11 +47,32 @@ class HomesController < ApplicationController
     redirect_to root_path, notice: 'Metal updated.' 
   end
   
+  def diamond_values
+    @total_products = ShopifyAPI::Product.count
+        @total_pages = (@total_products / 250.0).ceil
+        products = []
+        @total_pages.times do |x|
+          page = x+1
+          products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+        end
+        gemstone_list = []
+        products.each do |p|
+        if p.options.last.name == 'Gemstone'
+          gemstone = p.options.last.values
+          gemstone.each do |gemstone_title|
+          gemstone_list << gemstone_title.downcase
+          end           
+      end
+    end
+    @gemstones = gemstone_list.uniq
+
+  end
+
   def update_variants_value
-    if request.put?      
-      params_variant = params[:query_1].downcase
-      params_new_price = params[:query_2]
-      if( !params[:query_1].empty? || !params[:query_2].empty?)
+    if request.put? 
+      params_variant = params[:gemstone].first.downcase
+      params_new_price = params[:price]
+      if( !params[:gemstone].empty? || !params[:price].empty?)
         @total_products = ShopifyAPI::Product.count
         @total_pages = (@total_products / 250.0).ceil
         products = []
@@ -66,7 +80,7 @@ class HomesController < ApplicationController
           page = x+1
           products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
         end
-        count = 0
+        @count = 0
         @mailer_variant = []
         @metal_blank_product = []
         @mailer_metal = []
@@ -83,17 +97,13 @@ class HomesController < ApplicationController
               new_price = params_new_price.to_i + db_price_value.to_i
               variant.price = new_price.to_s
               variant.save
-              count = count + 1 
+              @count = @count + 1 
             end
           end
         end
       end
-      
-      flash[:notice] = " #{count} Variants price was successfully updated."
-
-      # Sends email to user when user is created.
-      ExampleMailer.sample_email(User.first, @mailer_variant, count, @metal_blank_product, @mailer_metal).deliver
-
+      ExampleMailer.sample_email(User.first, @mailer_variant, @count, @metal_blank_product, @mailer_metal).deliver
+      redirect_to diamond_values_homes_path, notice: 'Variants price was successfully updated.'
     else
       #display only form
     end

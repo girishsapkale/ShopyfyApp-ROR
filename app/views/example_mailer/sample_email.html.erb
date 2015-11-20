@@ -11,6 +11,7 @@
       	<tr>
       		<td>Total no. of updated variants: <%= @count%></td> 
         </tr>
+        <% if @mailer_metal.present? %>
         <tr>
           <td>Metal's where price is ZERO in database and tried to update</td> 
         </tr>
@@ -24,6 +25,7 @@
               <% end %>
           </table>
         </tr>
+        <% end %>
       </table>
     </p>
   </body>
