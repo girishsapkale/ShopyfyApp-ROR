@@ -11,14 +11,5 @@ class ApplicationController < ActionController::Base
   shop_url = "https://6acdc0a7e033747ed3ed49f53ee6139d:bbc52658c951c9e75bb4f5b03b819492@surprisepost.myshopify.com/admin"
   ShopifyAPI::Base.site = shop_url
 
-  private
-  def check_shop_url
-  	if Home.first
-      ShopifyAPI::Base.site = Home.first.shop_url
-  	else
-  	  shop_url = "https://6acdc0a7e033747ed3ed49f53ee6139d:bbc52658c951c9e75bb4f5b03b819492@surprisepost.myshopify.com/admin"
-      ShopifyAPI::Base.site = shop_url
-  	end
-  end
-    
+  
 end
