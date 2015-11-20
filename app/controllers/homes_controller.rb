@@ -70,9 +70,9 @@ class HomesController < ApplicationController
 
   def update_variants_value
     if request.put? 
-      params_variant = params[:gemstone].first.downcase
-      params_new_price = params[:price]
-      if( !params[:gemstone].empty? || !params[:price].empty?)
+      params_variant = params[:query_1].downcase
+      params_new_price = params[:query_2]
+      if( !params[:query_1].empty? || !params[:query_2].empty?)
         @total_products = ShopifyAPI::Product.count
         @total_pages = (@total_products / 250.0).ceil
         products = []

@@ -2,9 +2,11 @@
 <%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
 <div class="form-group">
   <label for="inputs">Gemstones</label>
-  <%#= text_field_tag :query_1, params[:query], placeholder: "Enter gemstone", class: "form-control"%>
-  <%= select(:gemstone, "", @gemstones, {prompt: 'Select Gemstone'}, { :class => 'form-control' })%>
-  <%= text_field_tag :price, params[:query], placeholder: "Enter new price..", class: "form-control"%>
+   <%= text_field_tag :query_1, params[:query], placeholder: "Enter gemstone", class: "form-control"%>
+   <%= text_field_tag :query_2, params[:query], placeholder: "Enter new price..", class: "form-control"%>
+  <%#= text_field_tag :gemstone, params[:query_1], placeholder: "Enter gemstone", class: "form-control"%>
+  <%#= select(:gemstone, "", @gemstones, {prompt: 'Select Gemstone'}, { :class => 'form-control' })%>
+  <%#= text_field_tag :price, params[:query_2], placeholder: "Enter new price..", class: "form-control"%>
 </div>
 <button type="submit" class="btn btn-warning">Update Variant</button>
 <% end %>
