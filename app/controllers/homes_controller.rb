@@ -1,5 +1,5 @@
 class HomesController < ApplicationController
-  before_action :check_shop, :except => :set_shop
+  before_action :check_shop, :except => [:set_shop, :update_metals]
   around_action :handle_exceptions
   def index
     @total_products = ShopifyAPI::Product.count
@@ -71,9 +71,9 @@ class HomesController < ApplicationController
 
   def update_variants_value
     if request.put? 
-      params_variant = params[:query_1].downcase
-      params_new_price = params[:query_2]
-      if( !params[:query_1].empty? || !params[:query_2].empty?)
+      params_variant = params[:gemstone]
+      params_new_price = params[:price]
+      if( !params[:gemstone].empty? || !params[:price].empty?)
         @total_products = ShopifyAPI::Product.count
         @total_pages = (@total_products / 250.0).ceil
         products = []
@@ -142,7 +142,7 @@ class HomesController < ApplicationController
     begin
       yield
     rescue => e
-      logger.warn "Unable to open shop, will ignore: #{e}"
+      logger.warn "Exception, will ignore: #{e}"
       redirect_to set_shop_homes_path
     end
   end
