@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       get 'diamond_values'
       put 'update_variants_value'
       get 'shopify_url'
+      get 'set_shop'
       put 'update_shopify_url'
     end
   end

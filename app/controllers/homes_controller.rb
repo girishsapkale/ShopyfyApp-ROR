@@ -1,5 +1,6 @@
 class HomesController < ApplicationController
-  
+  before_action :check_shop, :except => :set_shop
+  around_action :handle_exceptions
   def index
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
@@ -60,12 +61,12 @@ class HomesController < ApplicationController
         if p.options.last.name == 'Gemstone'
           gemstone = p.options.last.values
           gemstone.each do |gemstone_title|
-          gemstone_list << gemstone_title.downcase
+            gemstone_list << gemstone_title.downcase
           end           
       end
     end
     @gemstones = gemstone_list.uniq
-
+    
   end
 
   def update_variants_value
@@ -109,6 +110,10 @@ class HomesController < ApplicationController
     end
   end
   
+  def set_shop
+
+  end
+
   def shopify_url
   end
 
@@ -121,4 +126,24 @@ class HomesController < ApplicationController
     redirect_to shopify_url_homes_path, notice: 'SHOP URL successfully updated.'
   end
  
+ private
+
+ def check_shop
+  if Shop.first.nil?
+    Shop.create(:url => "https://5000b6fab6a48677813d80080e505c18:1eebe1b232ede28bfa0e68c673a317d7@rormobikasa.myshopify.com/admin")
+    ShopifyAPI::Base.site = Shop.last.url
+  else
+    shop_url = Shop.last.url
+    ShopifyAPI::Base.site = shop_url
+  end
+ end
+
+ def handle_exceptions
+    begin
+      yield
+    rescue => e
+      logger.warn "Unable to open shop, will ignore: #{e}"
+      redirect_to set_shop_homes_path
+    end
+  end
 end
