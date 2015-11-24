@@ -1,12 +1,19 @@
-<h3>Update According to Variant's Titles Value</h3>
+<h3>Update in Shopify According to Product's Metal Price</h3>
 <%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
 <div class="form-group">
-  <label for="inputs">Gemstones</label>
-  <%#= text_field_tag :query_1, params[:query], placeholder: "Enter gemstone", class: "form-control"%>
-  <%= select(:gemstone, "", @gemstones, {prompt: 'Select Gemstone'}, { :class => 'form-control' })%>
-  <%= text_field_tag :price, params[:query], placeholder: "Enter new price..", class: "form-control"%>
+	<table class="table table-striped">
+		<body>
+	<% @gemstones.each do |gemstone| %>
+	<tr>
+    <td><%= gemstone %></td>
+  	<td> <%= text_field_tag 'prices[]', nil, placeholder: "Enter new price..", class: "form-control"%></td>
+  	 <%= hidden_field_tag 'gemstones[]', gemstone %> 
+	</tr>
+	<% end %>
+	<tr></td></td><td> <button type="submit" class="btn btn-warning">Update Variants</button> </td></tr>
+</body>
+</table>
 </div>
-<button type="submit" class="btn btn-warning">Update Variant</button>
+
 <% end %>
 <br />
- 

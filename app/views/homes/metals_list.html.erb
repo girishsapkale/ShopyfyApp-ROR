@@ -1,0 +1,24 @@
+<%= form_tag('/homes/update_metals', method: :put) do %>
+<h3>Listing Metals</h3>
+<table id="products" class="table table-striped table-bordered" cellspacing="0" width="90%">
+  <thead>
+    <tr>
+      <th>Metal title</th>
+      <th>Metal price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @variants.each do |variant| %>
+    <tr>
+      <td><%= variant.metal_title %></td>
+      <td><%= text_field_tag 'metal_prices[]', variant.metal_price %></td>
+        <%= hidden_field_tag 'ids[]', variant.id %>      
+    </tr>
+    <% end %>
+    <tr><td></td>
+      <td><%= submit_tag 'Save Changes' , class: 'btn btn-danger' %></td>
+    </tr>
+  </tbody>
+</table>
+  
+<% end %>

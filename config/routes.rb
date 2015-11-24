@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :metals
   root 'homes#index'
   devise_for :users
   
@@ -10,7 +11,14 @@ Rails.application.routes.draw do
       put 'update_variants_value'
       get 'shopify_url'
       get 'set_shop'
+      get 'metals_list'
       put 'update_shopify_url'
+    end
+  end
+
+  resources :products do
+    member do
+      put 'update_metal_prices'
     end
   end
 end

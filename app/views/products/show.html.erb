@@ -1,0 +1,31 @@
+<%= form_tag(update_metal_prices_product_path, method: :put) do %>
+<h1>Listing Metals for <%= @product.title%></h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Metal Name</th>
+      <th>Price</th>
+
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @product.metals.each do |metal| %>
+      <tr>
+        <td><%= metal.name %></td>
+       <td><%= text_field_tag 'prices[]', metal.price %></td>
+       <%= hidden_field_tag 'ids[]', metal.id %>
+      </tr>
+    <% end %>
+    
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              products_path, :class => 'btn btn-default'  %>
+<%= submit_tag 'Save Changes' , class: 'btn btn-danger' %>
+<% end %>

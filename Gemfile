@@ -32,6 +32,7 @@ gem 'adminlte2-rails'
 gem 'shopify_api'
 gem 'devise'
 gem 'jquery-datatables-rails', '~> 3.3.0'
+gem "twitter-bootstrap-rails"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

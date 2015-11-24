@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @metal.name %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @metal.price %>
+</p>
+
+<p>
+  <strong>Product:</strong>
+  <%= @metal.product %>
+</p>
+
+<%= link_to 'Edit', edit_metal_path(@metal) %> |
+<%= link_to 'Back', metals_path %>
