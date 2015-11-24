@@ -72,6 +72,10 @@ class ProductsController < ApplicationController
       redirect_to @product, notice: 'Product was successfully updated.' 
   end
 
+  def reload_products
+    Product.destroy_all
+    redirect_to products_path, notice: 'Product was successfully Reloaded.' 
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
