@@ -1,26 +1,17 @@
-<%= link_to  "Clear all textboxes",reload_products_products_path, :class => "btn btn-danger cursor_wait" %>
 <%- model_class = Product -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 <table class="table table-striped">
   <thead>
-    <tr>
-   
-      <th><%= model_class.human_attribute_name(:title) %></th>
-      <th><%= model_class.human_attribute_name(:product_type) %></th>
-      <th><%= model_class.human_attribute_name(:loaded_at) %></th>
-     
+    <tr>   
+      <th><%= model_class.human_attribute_name(:list) %></th>
     </tr>
   </thead>
   <tbody>
     <% @products.each do |product| %>
-      <tr>
-        
-        <td><%= link_to product.title, product_path(product) %></td>
-        <td><%= product.product_type %></td>
-        <td><%=l product.created_at %></td>
-        
+      <tr>        
+        <td><%= link_to product.title, product_path(product) %></td>        
       </tr>
     <% end %>
   </tbody>

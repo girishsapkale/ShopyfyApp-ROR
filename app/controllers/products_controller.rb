@@ -23,9 +23,9 @@ class ProductsController < ApplicationController
             element.title = product.title
             element.product_type = product.product_type
             element.prod_id = product.id
-            #product.options.first.values.each do |title|
-              #element.metals.build(:name => title)
-            #end           
+            product.options.first.values.each do |title|
+              element.metals.build(:name => title.downcase)
+            end           
             element.save!
         end      
       end
@@ -53,8 +53,7 @@ class ProductsController < ApplicationController
         end           
     end
    
-    @metals = metals_list.uniq
-    
+    @metals = metals_list.uniq    
     metals = @product.metals
     if metals.blank?
         @metals.each do |metal_title|
@@ -66,8 +65,9 @@ class ProductsController < ApplicationController
      
     if @metals & @a == @metals
       old_metal = @a - @metals
+
       if old_metal.present?
-        old_metal.each do |x|
+        old_metal.each do |x|         
           @product.metals.find(:name => x).destroy
         end
       end
