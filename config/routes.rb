@@ -21,7 +21,12 @@ Rails.application.routes.draw do
       put 'update_metal_prices'
     end
     collection do
-      get 'reload_products'
+      get 'reload_products'     
     end
+  end
+
+  namespace :webhooks do
+    post 'create_product'
+    post 'update_product'
   end
 end

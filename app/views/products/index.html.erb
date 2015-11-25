@@ -1,4 +1,4 @@
-<%= link_to  "Reload",reload_products_products_path, :class => "btn btn-danger" %>
+<%= link_to  "Clear all textboxes",reload_products_products_path, :class => "btn btn-danger cursor_wait" %>
 <%- model_class = Product -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>

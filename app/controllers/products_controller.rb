@@ -1,6 +1,8 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  skip_before_filter :verify_authenticity_token, :only => [:create_product]
+  before_action :set_product, only: [:edit, :update, :destroy]
   before_action :check_shop, :except => [:set_shop, :update_metals]
+
   # GET /products
   # GET /products.json
   def index
@@ -14,18 +16,23 @@ class ProductsController < ApplicationController
     products = Product.all
 
     if products.blank?
+      
       @products.each do |product|
         if product.options.first.name == 'Metal'
             element = Product.new
             element.title = product.title
             element.product_type = product.product_type
             element.prod_id = product.id
-            product.options.first.values.each_with_index do |title, index|
-              element.metals.build(:name => title, :gemstone =>  product.options.last.values[index] )
-            end           
+            #product.options.first.values.each do |title|
+              #element.metals.build(:name => title)
+            #end           
             element.save!
         end      
       end
+    update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "http://rorapp.mobikasa.com/webhooks/update_product", :format => "json"})
+    update_webhook.save!
+    create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})
+    create_webhook.save!
     end
     @products = Product.all
   end
@@ -33,7 +40,49 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
+    
+    @product = Product.find(params[:id])
+    @api_product = ShopifyAPI::Product.find(@product.prod_id)
+       
+    metals_list = []
+
+    if @api_product.options.first.name == 'Metal'
+        metals = @api_product.options.first.values
+        metals.each do |metal_title|
+          metals_list << metal_title.downcase
+        end           
+    end
    
+    @metals = metals_list.uniq
+    
+    metals = @product.metals
+    if metals.blank?
+        @metals.each do |metal_title|
+           Metal.create(:name => metal_title, :product_id => @product.id)
+        end
+    end
+
+    @a = Metal.where(:product_id => @product.id).pluck(:name)
+     
+    if @metals & @a == @metals
+      old_metal = @a - @metals
+      if old_metal.present?
+        old_metal.each do |x|
+          @product.metals.find(:name => x).destroy
+        end
+      end
+    end
+
+    unless @metals & @a == @metals
+      new_metal = @metals - @a
+
+      if new_metal.present?
+        new_metal.each do |y|
+          Metal.create(:name => y, :product_id => @product.id) 
+        end
+      end
+    end
+    @product = Product.find(params[:id])
   end
 
   # GET /products/new
@@ -48,18 +97,17 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.json
   def create
-    @product = Product.new(product_params)
-
-    respond_to do |format|
-      if @product.save
-        format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        format.json { render :show, status: :created, location: @product }
-      else
-        format.html { render :new }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @product.save
+    #     format.html { redirect_to @product, notice: 'Product was successfully created.' }
+    #     format.json { render :show, status: :created, location: @product }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @product.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
+
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
@@ -74,8 +122,16 @@ class ProductsController < ApplicationController
 
   def reload_products
     Product.destroy_all
+
+    webhooks = ShopifyAPI::Webhook.all
+    webhooks.each do |x|
+      x.destroy
+    end
+   
     redirect_to products_path, notice: 'Product was successfully Reloaded.' 
   end
+
+   
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product

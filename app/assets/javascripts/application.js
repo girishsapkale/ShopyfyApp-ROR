@@ -21,3 +21,9 @@
 //= require app
 //= require_tree .
 
+jQuery(document).ready(function(){
+  jQuery('a.cursor_wait').click(function(){
+    jQuery('body').css('cursor', 'wait');
+      $(this).css('cursor', 'wait');
+  });
+});
