@@ -24,7 +24,7 @@ class ProductsController < ApplicationController
             element.product_type = product.product_type
             element.prod_id = product.id
             product.options.first.values.each do |title|
-              element.metals.build(:name => title.downcase)
+              element.metals.build(:name => title.downcase, :price => 0)
             end           
             element.save!
         end      

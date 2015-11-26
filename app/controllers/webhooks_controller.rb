@@ -10,7 +10,7 @@ class WebhooksController < ApplicationController
  			@product.prod_id = params[:id]
  			@product.product_type = params[:product_type]
  			params[:options].first.values.each_with_index do |title, index|
-     		 @product.metals.build(:name => title, :gemstone =>  params[:options].last.values[index] )
+     		  @product.metals.build(:name => title.downcase, :price => 0)
     	end           
         
     	respond_to do |format|
