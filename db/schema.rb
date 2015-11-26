@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(version: 20151123100527) do
   create_table "metals", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.string   "gemstone",   limit: 255
-    t.integer  "price",      limit: 4,   default: 0
+    t.integer  "price",      limit: 4
     t.integer  "product_id", limit: 4
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_index "metals", ["product_id"], name: "fk_rails_86a9e899f4", using: :btree

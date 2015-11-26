@@ -33,6 +33,7 @@ jQuery(document).ready(function(){
 	$('#metals').DataTable( {
     "fnInitComplete": function() {
     	$(":text:not([value])").css("background-color","pink");
+      $('input[value="0"]').css("background-color","pink");
     }
 	} );
 
@@ -51,13 +52,31 @@ jQuery(document).ready(function(){
             "paging":         true,
             "fnInitComplete": function() {
     	$(":text:not([value])").css("background-color","pink");
+      $('input[value="0"]').css("background-color","pink");
     }
 	} );
 
 	$('#diamonds').DataTable( {
     
 	} );
+  $('input[value="0"]').each(function(){
+    var $row = $(this).parents('tr'); 
+    i = $row.find('td:eq(1) input').val();
+    if(i==0){
+      $row.addClass( "empty" );
+      };
+    
 
+  });
+
+  $('input[value!="0"]').each(function(){
+    var $row = $(this).parents('tr'); 
+    i = $row.find('td:eq(1) input').val();
+    if(i>0) {
+      $row.addClass( "filled" );
+    };
+   
+  });
 
 });
 

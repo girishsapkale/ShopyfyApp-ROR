@@ -1,7 +1,15 @@
+<style>
+.empty{
+  background-color: #FF99CC;
+}
+.filled{
+  background-color: #FFFFCC;
+}
+</style>
 <%= form_tag(update_metal_prices_product_path, method: :put) do %>
 <h1>Listing Metals for <%= @product.title%></h1>
 
-<table id="metals" class="table table-striped display">
+<table id="metals" class="table">
   <thead>
     <tr>
       <th>Metal Name</th>
