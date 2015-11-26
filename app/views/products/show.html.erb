@@ -25,5 +25,5 @@
 
 <%= link_to t('.back', :default => t("helpers.links.back")),
               products_path, :class => 'btn btn-default cursor_wait'  %>
-<%= submit_tag 'Save Changes' , id: 'search',class: 'btn btn-danger cursor_wait' %>
+<%= submit_tag 'Save Changes', 'data-disable-with' => "Please wait..", class: 'btn btn-danger submit' %>
 <% end %>

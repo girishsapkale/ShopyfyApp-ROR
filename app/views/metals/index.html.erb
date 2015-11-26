@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <h1>Listing Metals</h1>
 
 <table id="almetals" class="table table-striped">
@@ -20,7 +18,7 @@
     <% @metals.each do |metal| %>
       <tr>
         <td><%= metal.product.title %></td>
-        <td><%= metal.name %></td>
+        <td><%= link_to metal.name, edit_metal_path(metal) %></td>
         <td><%= metal.price %></td>
         <td><%= link_to 'Edit', edit_metal_path(metal) %></td>
       </tr>
