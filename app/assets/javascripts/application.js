@@ -31,6 +31,17 @@ jQuery(document).ready(function(){
 	} );
 
 	$('#metals').DataTable( {
+    'bSort': true,
+            'aoColumns': [
+                  { sWidth: "45%", bSearchable: true, bSortable: true },                  
+                  { sWidth: "10%", bSearchable: false, bSortable: true },
+                  //match the number of columns here for table1
+            ],
+            "scrollY":        "400px",
+            "scrollCollapse": false,
+            "info":           true,
+            "paging":         true,
+         
     "fnInitComplete": function() {
     	$(":text:not([value])").css("background-color","pink");
       $('input[value="0"]').css("background-color","pink");
