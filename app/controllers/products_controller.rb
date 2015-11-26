@@ -29,6 +29,10 @@ class ProductsController < ApplicationController
             element.save!
         end      
       end
+    webhooks = ShopifyAPI::Webhook.all
+    webhooks.each do |x|
+      x.destroy
+    end
     update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "http://rorapp.mobikasa.com/webhooks/update_product", :format => "json"})
     update_webhook.save!
     create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})

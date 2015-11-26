@@ -10,20 +10,35 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-  <div class="field">
-    <%= f.label :product_id %><br>
-    <%= f.text_field :product_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>
+        <%= f.label :product_title %>
+      </th>
+      <th>
+        <%= f.label :metal_name %>
+      </th>
+      <th>
+        <%= f.label :price %>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <%= @metal.name %>
+      </td>
+      <td>
+        <%= @metal.product.title %>
+      </td>
+    <td>    
+        <%= f.text_field :price %>
+    </td>
+    </tr>
+  </tbody>
+</table>
+<div class="actions">
+  <%= submit_tag 'Save Changes' , class: 'btn btn-danger cursor_wait' %>
+</div>
 <% end %>

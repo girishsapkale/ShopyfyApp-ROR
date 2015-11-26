@@ -1,17 +1,23 @@
 <h3>Update in Shopify According to Product's Metal Price</h3>
 <%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
-<div class="form-group">
+<div  class="form-group">
 	<table class="table table-striped">
-		<body>
-	<% @gemstones.each do |gemstone| %>
-	<tr>
-    <td><%= gemstone %></td>
-  	<td> <%= text_field_tag 'prices[]', nil, placeholder: "Enter new price..", class: "form-control"%></td>
-  	 <%= hidden_field_tag 'gemstones[]', gemstone %> 
-	</tr>
-	<% end %>
-	<tr></td></td><td> <button type="submit" class="btn btn-warning cursor_wait">Update Variants</button> </td></tr>
-</body>
+		<thead>
+    	<tr>   
+      	<th>Gemstones</th>
+      	<th>New Values</th>
+    	</tr>
+  	</thead>
+		<tbody>
+		<% @gemstones.each do |gemstone| %>
+			<tr>
+    		<td><%= gemstone %></td>
+  			<td> <%= text_field_tag 'prices[]', nil, placeholder: "Enter new price..", class: "form-control"%></td>
+  	 		<%= hidden_field_tag 'gemstones[]', gemstone %> 
+			</tr>
+		<% end %>
+		<tr></td></td><td> <button type="submit" class="btn btn-warning cursor_wait">Update Variants</button> </td></tr>
+		</tbody>
 </table>
 </div>
 

@@ -10,20 +10,54 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require jquery2
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
-//= require pace
+//= require pace/pace
 //= require morris
 //= require jquery.slimscroll
 //= require app
 //= require_tree .
 
 jQuery(document).ready(function(){
-  jQuery('a.cursor_wait').click(function(){
-    jQuery('body').css('cursor', 'wait');
-      $(this).css('cursor', 'wait');
-  });
+	$('#products').DataTable( {
+    columns: [
+        {data: "title" },
+       
+    ]
+	} );
+
+	$('#metals').DataTable( {
+    "fnInitComplete": function() {
+    	$(":text:not([value])").css("background-color","pink");
+    }
+	} );
+
+	$('#almetals').DataTable( {
+    'bSort': true,
+            'aoColumns': [
+                  { sWidth: "45%", bSearchable: true, bSortable: true },
+                  { sWidth: "20%", bSearchable: true, bSortable: true },
+                  { sWidth: "5%", bSearchable: false, bSortable: true },
+                  { sWidth: "10%", bSearchable: false, bSortable: false },
+                  //match the number of columns here for table1
+            ],
+            "scrollY":        "400px",
+            "scrollCollapse": false,
+            "info":           true,
+            "paging":         true,
+            "fnInitComplete": function() {
+    	$(":text:not([value])").css("background-color","pink");
+    }
+	} );
+
+	$('#diamonds').DataTable( {
+    
+	} );
+
+
 });
+

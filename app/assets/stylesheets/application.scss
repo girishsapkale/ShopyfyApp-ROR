@@ -12,6 +12,8 @@
  *
  *= require_tree .
  *= require morris
+ *= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+ *= require pace/blue/pace-theme-loading-bar
  *= require_self
  */
 @import "bootstrap-sprockets";

@@ -31,7 +31,9 @@ gem 'adminlte2-rails'
 # gem 'unicorn'
 gem 'shopify_api'
 gem 'devise'
-gem 'jquery-datatables-rails', '~> 3.3.0'
+#gem 'jquery-datatables-rails', '~> 3.3.0'
+gem 'pace-rails'
+gem 'jquery-datatables-rails', github: "rweng/jquery-datatables-rails", branch: "master"
 gem "twitter-bootstrap-rails"
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
