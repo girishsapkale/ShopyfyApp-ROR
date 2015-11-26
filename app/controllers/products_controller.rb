@@ -5,18 +5,16 @@ class ProductsController < ApplicationController
 
   # GET /products
   # GET /products.json
-  def index
-    @total_products = ShopifyAPI::Product.count
-    @total_pages = (@total_products / 250.0).ceil
-    @products = []
-    @total_pages.times do |x|
-      page = x+1
-      @products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
-    end
+  def index    
     products = Product.all
-
     if products.blank?
-      
+      @total_products = ShopifyAPI::Product.count
+      @total_pages = (@total_products / 250.0).ceil
+      @products = []
+      @total_pages.times do |x|
+        page = x+1
+        @products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+      end
       @products.each do |product|
         if product.options.first.name == 'Metal'
             element = Product.new
@@ -38,7 +36,7 @@ class ProductsController < ApplicationController
     create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})
     create_webhook.save!
     end
-    @products = Product.all
+    @products = Product.includes(:metals)
   end
 
   # GET /products/1
