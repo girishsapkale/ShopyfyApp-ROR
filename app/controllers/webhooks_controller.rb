@@ -19,8 +19,8 @@ class WebhooksController < ApplicationController
   end
 
   def update_product
-   	puts "Updating Product"
-    if Product.pluck(:prod_id).exclude? (params[:id])
+   	puts "Updating Product"    
+    if Product.find_by_prod_id(params[:id]).blank?
       if params[:options].first.values[2] == 'Metal'
           @product = Product.new
           @product.title = params[:title]
