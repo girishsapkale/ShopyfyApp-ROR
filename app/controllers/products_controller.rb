@@ -31,9 +31,9 @@ class ProductsController < ApplicationController
     webhooks.each do |x|
       x.destroy
     end
-    update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "https://4b8095bf.ngrok.com/webhooks/update_product", :format => "json"})
+    update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "http://rorapp.mobikasa.com/webhooks/update_product", :format => "json"})
     update_webhook.save!
-    create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "https://4b8095bf.ngrok.com/webhooks/create_product", :format => "json"})
+    create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})
     create_webhook.save!
     end
     @products = Product.includes(:metals)
