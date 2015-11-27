@@ -61,10 +61,23 @@ jQuery(document).ready(function(){
             "scrollCollapse": false,
             "info":           true,
             "paging":         true,
+            
             "fnInitComplete": function() {
     	$(":text:not([value])").css("background-color","pink");
-      $('input[value="0"]').css("background-color","pink");
-    }
+      $('input[value="0"]').css("background-color","pink");      
+      
+    },
+    "drawCallback": function(settings){
+              $('tr > td:even').each(function(index) {
+                var scale = [['vPoor', 0], ['poor', 10000000]];
+                var score = $(this).text();
+                for (var i = 0; i < scale.length; i++) {
+                  if (score <= scale[i][1]) {
+                  $(this).addClass(scale[i][0]);
+                }
+              }
+            });
+            }
 	} );
 
 	$('#diamonds').DataTable( {
@@ -88,6 +101,8 @@ jQuery(document).ready(function(){
     };
    
   });
+
+   
 
 });
 

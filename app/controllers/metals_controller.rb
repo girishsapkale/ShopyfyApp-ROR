@@ -4,7 +4,7 @@ class MetalsController < ApplicationController
   # GET /metals
   # GET /metals.json
   def index
-    @metals = Metal.all
+    @metals = Metal.includes(:product)
   end
 
   # GET /metals/1

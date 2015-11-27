@@ -39,6 +39,7 @@ class HomesController < ApplicationController
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
     products = []
+    @count = 0
     @total_pages.times do |x|
       page = x+1
       products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
@@ -47,7 +48,6 @@ class HomesController < ApplicationController
       if price.present?
         params_price = price
         params_diamond = params[:gemstones][ind]
-        @count = 0
         @mailer_variant = []
         @metal_blank_product = []
         @mailer_metal = []
@@ -72,11 +72,9 @@ class HomesController < ApplicationController
           end
         end
       end
-
     end  
-      
-      #ExampleMailer.sample_email(User.first, @mailer_variant, @count, @metal_blank_product, @mailer_metal).deliver
-      redirect_to diamond_values_homes_path, notice: "Variants price was successfully updated."
+      ExampleMailer.sample_email(User.first, @mailer_variant, @count, @metal_blank_product, @mailer_metal).deliver
+      redirect_to diamond_values_homes_path, notice: "#{@count} Variant's price was successfully updated."
     
   end
   
