@@ -5,43 +5,37 @@ class WebhooksController < ApplicationController
   def create_product
   	puts "Creating Product"
    	if Product.pluck(:prod_id).exclude? (params[:id])
-   		@product = Product.new
- 			@product.title = params[:title]
- 			@product.prod_id = params[:id]
- 			@product.product_type = params[:product_type]
- 			params[:options].first.values.each_with_index do |title, index|
-     		  @product.metals.build(:name => title.downcase, :price => 0)
-    	end           
-        
-    	respond_to do |format|
-      	if @product.save
-        	#format.html { redirect_to @product, notice: 'Product was successfully created.' }
-        	format.json { render nothing: true, status: :created, location: @product }
-      	else
-        	#format.html { render :new }
-        	format.json { render json: @product.errors, status: :unprocessable_entity }
-      	end
+      if params[:options].first.values[2] == 'Metal'
+   		    @product = Product.new
+ 			    @product.title = params[:title]
+ 			    @product.prod_id = params[:id]
+ 			    @product.product_type = params[:product_type] 			             
+          @product.save      	
       end
+    end
+    respond_to do |format|          
+            format.json { render nothing: true, status: :created, location: @product }         
     end
   end
 
   def update_product
    	puts "Updating Product"
+    if Product.pluck(:prod_id).exclude? (params[:id])
+      if params[:options].first.values[2] == 'Metal'
+          @product = Product.new
+          @product.title = params[:title]
+          @product.prod_id = params[:id]
+          @product.product_type = params[:product_type]                    
+          @product.save       
+      end
+    end    
    	@product = Product.find_by_prod_id(params[:id])
    	@product.title = params[:title]
  		@product.prod_id = params[:id]
  		@product.product_type = params[:product_type]
- 		# params[:options].first.values.each_with_index do |title, index|
-   #   		 @product.metals.build(:name => title, :gemstone =>  params[:options].last.values[index] )
-   #  end           
-    respond_to do |format|
-     	if @product.save
-        	#format.html { redirect_to @product, notice: 'Product was successfully created.' }
-       	format.json { render nothing: true, status: :created, location: @product }
-     	else
-       	#format.html { render :new }
-       	format.json { render json: @product.errors, status: :unprocessable_entity }
-     	end
+    @product.save 	         
+    respond_to do |format|     
+       	format.json { render nothing: true, status: :created, location: @product } 
     end
    
   end

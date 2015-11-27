@@ -31,9 +31,9 @@ class ProductsController < ApplicationController
     webhooks.each do |x|
       x.destroy
     end
-    update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "http://rorapp.mobikasa.com/webhooks/update_product", :format => "json"})
+    update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "https://4b8095bf.ngrok.com/webhooks/update_product", :format => "json"})
     update_webhook.save!
-    create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})
+    create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "https://4b8095bf.ngrok.com/webhooks/create_product", :format => "json"})
     create_webhook.save!
     end
     @products = Product.includes(:metals)
@@ -64,26 +64,24 @@ class ProductsController < ApplicationController
     end
 
     @a = Metal.where(:product_id => @product.id).pluck(:name)
-     
-    if @metals & @a == @metals
+    
+    #if @metals & @a == @metals
       old_metal = @a - @metals
-
       if old_metal.present?
-        old_metal.each do |x|         
-          @product.metals.find(:name => x).destroy
+        old_metal.each do |x|             
+          @product.metals.find_by_name(x).destroy
         end
       end
-    end
+    #end
 
-    unless @metals & @a == @metals
-      new_metal = @metals - @a
-
+    #unless @metals & @a == @metals
+      new_metal = @metals - @a     
       if new_metal.present?
-        new_metal.each do |y|
-          Metal.create(:name => y, :product_id => @product.id) 
+        new_metal.each do |y|          
+          @product.metals.build(:name => y, :price => 0).save! 
         end
       end
-    end
+    #end
     @product = Product.find(params[:id])
   end
 
