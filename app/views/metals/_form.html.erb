@@ -1,44 +1,32 @@
 <%= form_for(@metal) do |f| %>
-  <% if @metal.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@metal.errors.count, "error") %> prohibited this metal from being saved:</h2>
 
-      <ul>
+
+<div class="modal-dialog">
+<div class="modal-content">
+   
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"><%= @metal.product.title %> with metal: <%= @metal.name %> </h4>
+      </div>
+      <div class="modal-body">
+             <% if @metal.errors.any? %>
+    <h5>
+      <%= pluralize(@metal.errors.count, "error") %> prohibited this metal from being saved:
+
+      <h5>
       <% @metal.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <p><%= message %></p>
       <% end %>
-      </ul>
-    </div>
+      </p>
+    </p>
   <% end %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>
-        <%= f.label :product_title %>
-      </th>
-      <th>
-        <%= f.label :metal_name %>
-      </th>
-      <th>
-        <%= f.label :price %>
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <%= @metal.name %>
-      </td>
-      <td>
-        <%= @metal.product.title %>
-      </td>
-    <td>    
-        <%= f.text_field :price %>
-    </td>
-    </tr>
-  </tbody>
-</table>
-<div class="actions">
-  <%= submit_tag 'Save Changes' , class: 'btn btn-danger cursor_wait' %>
-</div>
+        <p><%= f.label :price %>: <%= f.text_field :price %></p>
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag 'Save Changes' , class: 'btn btn-danger cursor_wait' %>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+
+  </div>
 <% end %>

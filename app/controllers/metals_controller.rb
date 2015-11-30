@@ -19,6 +19,9 @@ class MetalsController < ApplicationController
 
   # GET /metals/1/edit
   def edit
+    respond_to do |format|      
+      format.js
+    end
   end
 
   # POST /metals
@@ -42,10 +45,10 @@ class MetalsController < ApplicationController
   def update
     respond_to do |format|
       if @metal.update(metal_params)
-        format.html { redirect_to @metal, notice: 'Metal was successfully updated.' }
+        format.html { redirect_to metals_url, notice: "'#{@metal.product.title}' product with metal '#{@metal.name}' was successfully updated." }
         format.json { render :show, status: :ok, location: @metal }
       else
-        format.html { render :edit }
+        format.html { redirect_to metals_url, alert: "'#{@metal.product.title}' product with metal '#{@metal.name}' was failed to update." }
         format.json { render json: @metal.errors, status: :unprocessable_entity }
       end
     end

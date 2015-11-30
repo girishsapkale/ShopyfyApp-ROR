@@ -42,7 +42,7 @@
         <td><%= metal.product.title %></td>
         <td><%= link_to metal.name, edit_metal_path(metal) %></td>
         <td><%= metal.price %></td>
-        <td><%= link_to 'Edit', edit_metal_path(metal) %></td>
+        <td><%= link_to 'Edit',  edit_metal_path(metal),remote: :true, "data-toggle" => "modal", 'data-target' => '#myModal'  %></td>
       </tr>
     <% end %>
 
@@ -50,3 +50,13 @@
 </table>
 
 <br>
+<div id="testmodal">
+
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+
+
+    <!-- Modal content-->
+    
+
+</div>
