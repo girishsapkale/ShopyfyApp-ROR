@@ -16,8 +16,8 @@ class HomesController < ApplicationController
   
   def diamond_values
     @total_products = ShopifyAPI::Product.count
-        @total_pages = (@total_products / 250.0).ceil
-        products = []
+    @total_pages = (@total_products / 250.0).ceil
+      products = []
         @total_pages.times do |x|
           page = x+1
           products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
@@ -29,10 +29,9 @@ class HomesController < ApplicationController
           gemstone.each do |gemstone_title|
             gemstone_list << gemstone_title
           end           
+        end
       end
-    end
-    @gemstones = gemstone_list.uniq
-    
+    @gemstones = gemstone_list.uniq    
   end
 
   def update_variants_value
