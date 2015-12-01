@@ -37,7 +37,7 @@ jQuery(document).ready(function(){
                   { sWidth: "10%", bSearchable: false, bSortable: true },
                   //match the number of columns here for table1
             ],
-            "scrollY":        "400px",
+            "scrollY":        'auto',
             "scrollCollapse": false,
             "info":           true,
             "paging":         true,
@@ -57,7 +57,7 @@ jQuery(document).ready(function(){
                   { sWidth: "10%", bSearchable: false, bSortable: false },
                   //match the number of columns here for table1
             ],
-            "scrollY":        "400px",
+            "scrollY":        'auto',
             "scrollCollapse": false,
             "info":           true,
             "paging":         true,
