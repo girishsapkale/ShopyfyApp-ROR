@@ -1,3 +1,24 @@
+<style>
+.vGood {
+    background-color: #9f0;
+}
+
+.good {
+    background-color: #cf0;
+}
+
+.avg {
+    background-color: #CCFFCC;
+}
+
+.poor {
+    background-color: #FAAC58;
+}
+
+.vPoor {
+    background-color: #FF4000;
+}
+</style>
 <%- model_class = Product -%>
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
@@ -6,12 +27,14 @@
   <thead>
     <tr>   
       <th><%= model_class.human_attribute_name(:list) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>
     </tr>
   </thead>
   <tbody>
     <% @products.each do |product| %>
       <tr>        
-        <td><%= link_to product.title, product_path(product) %></td>        
+        <td><%= link_to product.title, product_path(product) %></td>
+        <td><%= product.status %></td>        
       </tr>
     <% end %>
   </tbody>

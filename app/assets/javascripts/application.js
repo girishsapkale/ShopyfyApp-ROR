@@ -24,10 +24,35 @@
 
 jQuery(document).ready(function(){
 	$('#products').DataTable( {
-    columns: [
-        {data: "title" },
-       
-    ]
+    'bSort': true,
+            'aoColumns': [
+                  { sWidth: "45%", bSearchable: true, bSortable: true },
+                  { sWidth: "20%", bSearchable: true, bSortable: true },
+                  
+                  //match the number of columns here for table1
+            ],
+            "scrollY":        'auto',
+            "scrollCollapse": false,
+            "info":           true,
+            "paging":         true,
+            
+            "fnInitComplete": function() {
+      $(":text:not([value])").css("background-color","pink");
+      $('input[value="0"]').css("background-color","pink");      
+      
+    },
+    "drawCallback": function(settings){
+              $('tr > td:odd').each(function(index) {
+                var scale = [['vPoor', 'unfilled'], ['poor', 'partially_filled'], ['avg', 'filled']];
+                var score = $(this).text();
+                for (var i = 0; i < scale.length; i++) {
+                  if (score <= scale[i][1]) {
+                   $(this).removeClass(); 
+                  $(this).addClass(scale[i][0]);
+                }
+              }
+            });
+            }
 	} );
 
 	$('#metals').DataTable( {
