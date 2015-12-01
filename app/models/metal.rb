@@ -1,7 +1,7 @@
 class Metal < ActiveRecord::Base
   belongs_to :product
   validates :price, numericality: { only_integer: true }
-  before_save :status_update
+  after_save :status_update
 
   def status_update
   	total = product.metals.count
@@ -9,7 +9,7 @@ class Metal < ActiveRecord::Base
   	unfilled = product.metals.where('price = ?', 0).count  
 		if filled === total
   		product.update_attributes(:status => "all_filled")
-		elsif filled < total
+		elsif filled < total && filled > 0
   		product.update_attributes(:status => "partially_filled")
 		else
  			product.update_attributes(:status => "unfilled")
