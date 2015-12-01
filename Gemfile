@@ -27,12 +27,13 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'adminlte2-rails'
+gem 'nprogress-rails'
 # Use Unicorn as the app server
 # gem 'unicorn'
 gem 'shopify_api'
 gem 'devise'
 #gem 'jquery-datatables-rails', '~> 3.3.0'
-gem 'pace-rails'
+#gem 'pace-rails'
 gem 'jquery-datatables-rails', github: "rweng/jquery-datatables-rails", branch: "master"
 gem "twitter-bootstrap-rails"
 # Use Capistrano for deployment

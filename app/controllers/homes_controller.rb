@@ -15,6 +15,7 @@ class HomesController < ApplicationController
   end
   
   def diamond_values
+  
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
       products = []

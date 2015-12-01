@@ -16,10 +16,10 @@
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require turbolinks
-//= require pace/pace
-//= require morris
 //= require jquery.slimscroll
 //= require app
+//= require nprogress
+//= require nprogress-turbolinks
 //= require_tree .
 
 jQuery(document).ready(function(){
@@ -126,8 +126,6 @@ jQuery(document).ready(function(){
     };
    
   });
-
-   
 
 });
 
