@@ -27,14 +27,14 @@
   <thead>
     <tr>   
       <th><%= model_class.human_attribute_name(:list) %></th>
-      <th><%= model_class.human_attribute_name(:status) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>      
     </tr>
   </thead>
   <tbody>
     <% @products.each do |product| %>
       <tr>        
         <td><%= link_to product.title, product_path(product) %></td>
-        <td><%= product.status %></td>        
+        <td><%= product.status %></td>             
       </tr>
     <% end %>
   </tbody>

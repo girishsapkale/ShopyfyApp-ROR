@@ -28,7 +28,6 @@ jQuery(document).ready(function(){
             'aoColumns': [
                   { sWidth: "45%", bSearchable: true, bSortable: true },
                   { sWidth: "20%", bSearchable: true, bSortable: true },
-                  
                   //match the number of columns here for table1
             ],
             "scrollY":        'auto',
@@ -43,7 +42,7 @@ jQuery(document).ready(function(){
     },
     "drawCallback": function(settings){
               $('tr > td:odd').each(function(index) {
-                var scale = [['vPoor', 'unfilled'], ['poor', 'partially_filled'], ['avg', 'filled']];
+                var scale = [['vPoor', 'unfilled'], ['poor', 'partially_filled'], ['avg', 'all_filled']];
                 var score = $(this).text();
                 for (var i = 0; i < scale.length; i++) {
                   if (score <= scale[i][1]) {
@@ -128,4 +127,3 @@ jQuery(document).ready(function(){
   });
 
 });
-
