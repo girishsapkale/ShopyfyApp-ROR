@@ -6,6 +6,10 @@
   background-color: #CCFFCC;
 }
 </style>
+<% content_for :back do %>
+  <li><%= link_to t('.back', :default => t("helpers.links.back")),
+              products_path %></li>
+<% end %>
 <%= form_tag(update_metal_prices_product_path, method: :put) do %>
 <h1 style="font-variant: small-caps;"><%= @product.title%>'s metals</h1>
 
