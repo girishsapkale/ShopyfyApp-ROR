@@ -3,7 +3,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3><%= Product.count %></h3>
+              <h3><%= @total = Product.count %></h3>
 
               <p>Total Products</p>
             </div>
@@ -18,7 +18,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3><%= Metal.where('price = ?', 0).select(:product_id).uniq.count %><sup style="font-size: 20px"></sup></h3>
+              <h3><%= @unfilled = Metal.where('price = ?', 0).select(:product_id).uniq.count %><sup style="font-size: 20px"></sup></h3>
 
               <p>Unfilled products</p>
             </div>
@@ -33,7 +33,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3><%= Metal.where('price > ?', 0).select(:product_id).uniq.count%></h3>
+              <h3><%= @total-@unfilled%></h3>
 
               <p>Filled Products</p>
             </div>
