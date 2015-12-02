@@ -1,4 +1,4 @@
-<%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
+ <%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
 <div class="box">
   <div class="box-header with-border">
     <h3 class="box-title">Update in Shopify According to Product's Metal Price</h3>
@@ -6,21 +6,25 @@
   <!-- /.box-header -->
   <div class="box-body no-padding">
     <table class="table table-striped">
-      <tbody>
+      <thead>
         <tr>
           <th style="width: 10px">#</th>
           <th>Diamond</th>
           <th>New Price</th>
         </tr>
+    </thead>
+        <tbody>
+        <div class="list">
         <% @gemstones.each_with_index do |gemstone, index| %>
         <tr>
           <td><%= index+1 %></td>
           <td><%= gemstone %></td>
           <td><%= text_field_tag 'prices[]', nil, placeholder: "Enter new price..", class: "form-control"%></td>
           <%= hidden_field_tag 'gemstones[]', gemstone %> 
-          </td>                  
+                        
         </tr>
         <% end %>
+    </div>
       </tbody>
     </table>
   </div>
