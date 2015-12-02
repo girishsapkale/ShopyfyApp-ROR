@@ -42,12 +42,14 @@ jQuery(document).ready(function(){
     },
     "drawCallback": function(settings){
               $('tr > td:odd').each(function(index) {
-                var scale = [['vPoor', 'unfilled'], ['poor', 'partially_filled'], ['avg', 'all_filled']];
+                var scale = [['depopulated', 'depopulated'], ['partially_filled', 'partially_filled'], ['populated', 'all_filled']];
                 var score = $(this).text();
                 for (var i = 0; i < scale.length; i++) {
-                  if (score <= scale[i][1]) {
+                  if (score == scale[i][1]) {
                    $(this).removeClass(); 
                   $(this).addClass(scale[i][0]);
+                  $(this).parent('tr').removeClass(scale[i][0]);
+                  $(this).parent('tr').addClass(scale[i][0]);
                 }
               }
             });
@@ -92,12 +94,15 @@ jQuery(document).ready(function(){
       
     },
     "drawCallback": function(settings){
-              $('tr > td:even').each(function(index) {
-                var scale = [['vPoor', 0], ['poor', 10000000]];
+            $('tr > td:nth-child(3)').each(function(index) {
+                var scale = [['depopulated', '0'], ['populated', '1']];
                 var score = $(this).text();
                 for (var i = 0; i < scale.length; i++) {
-                  if (score <= scale[i][1]) {
+                  if (score >= scale[i][1]) {
+                   $(this).removeClass(); 
                   $(this).addClass(scale[i][0]);
+                  $(this).parent('tr').removeClass(scale[i][0]);
+                  $(this).parent('tr').addClass(scale[i][0]);
                 }
               }
             });
@@ -111,7 +116,7 @@ jQuery(document).ready(function(){
     var $row = $(this).parents('tr'); 
     i = $row.find('td:eq(1) input').val();
     if(i==0){
-      $row.addClass( "empty" );
+      $row.addClass( "depopulated" );
       };
     
 
@@ -121,7 +126,7 @@ jQuery(document).ready(function(){
     var $row = $(this).parents('tr'); 
     i = $row.find('td:eq(1) input').val();
     if(i>0) {
-      $row.addClass( "filled" );
+      $row.addClass( "populated" );
     };
    
   });
