@@ -53,6 +53,19 @@ jQuery(document).ready(function(){
                 }
               }
             });
+              $('tr > td:nth-child(2)').each(function(index) {
+                var scale = [['label-primary', 'depopulated'], ['label-warning', 'partially_filled'], ['label-success', 'all_filled']];
+                var score = $(this).text();
+                
+                  switch (score) {
+                  
+case "depopulated": $(this).html("<span class='label label-primary'>depopulated</span>"); break;
+case "partially_filled": $(this).html("<span class='label label-warning'>Partially filled</span>"); break;
+case "all_filled": $(this).html("<span class='label label-success'>All Filled</span>"); break;
+ 
+                
+              }
+            });
             }
 	} );
 
