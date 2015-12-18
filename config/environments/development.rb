@@ -42,23 +42,14 @@ Rails.application.configure do
 
   config.action_mailer.delivery_method = :smtp
 
-  config.action_mailer.smtp_settings = {
-   :address              => "smtp.gmail.com",
-   :port                 => 587,
-   :user_name            => 'anilkumar@mobikasa.com',
-   :password             => 'mobikasa1234',
-   :authentication       => "plain",
+ config.action_mailer.smtp_settings = {
+  :user_name => 'nitesh@mobikasa.com',
+  :password => 'mobikasa123',
+  :domain => 'mobikasa.com',
+  :address => 'smtp.sendgrid.net',
+  :port => 587,
+  :authentication => :plain,
   :enable_starttls_auto => true
-  }
-
-# config.action_mailer.smtp_settings = {
-#   :user_name => 'nitesh@mobikasa.com',
-#   :password => 'mobikasa123',
-#   :domain => 'mobikasa.com',
-#   :address => 'smtp.sendgrid.net',
-#   :port => 587,
-#   :authentication => :plain,
-#   :enable_starttls_auto => true
-# }
+}
 
 end

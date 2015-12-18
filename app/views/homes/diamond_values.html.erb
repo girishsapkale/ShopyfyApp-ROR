@@ -1,3 +1,4 @@
+<%= link_to  "Synchronise", sync_homes_path %>
  <%= form_tag '/homes/update_variants_value', :method => 'put', :class => "form-inline" do %>
 <div class="box">
   <div class="box-header with-border">
@@ -15,12 +16,12 @@
     </thead>
         <tbody>
         <div class="list">
-        <% @gemstones.each_with_index do |gemstone, index| %>
+        <% @gemstones.select(:name).each_with_index do |gemstone, index| %>
         <tr>
           <td><%= index+1 %></td>
-          <td><%= gemstone %></td>
+          <td><%= gemstone.name %></td>
           <td><%= text_field_tag 'prices[]', nil, placeholder: "Enter new price..", class: "form-control"%></td>
-          <%= hidden_field_tag 'gemstones[]', gemstone %> 
+          <%= hidden_field_tag 'gemstones[]', gemstone.name %> 
                         
         </tr>
         <% end %>

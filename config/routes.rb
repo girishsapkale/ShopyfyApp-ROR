@@ -12,7 +12,8 @@ Rails.application.routes.draw do
       get 'shopify_url'
       get 'set_shop'
       get 'metals_list'
-      put 'update_shopify_url'      
+      put 'update_shopify_url' 
+      get 'sync'     
     end
   end
 

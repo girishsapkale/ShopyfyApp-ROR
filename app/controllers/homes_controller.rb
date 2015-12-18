@@ -16,6 +16,28 @@ class HomesController < ApplicationController
   
   def diamond_values
   
+    # @total_products = ShopifyAPI::Product.count
+    # @total_pages = (@total_products / 250.0).ceil
+    #   products = []
+    #     @total_pages.times do |x|
+    #       page = x+1
+    #       products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
+    #     end
+    #     gemstone_list = []
+    #     products.each do |p|
+    #     if p.options.last.name == 'Gemstone'
+    #       gemstone = p.options.last.values
+    #       gemstone.each do |gemstone_title|
+    #         gemstone_list << gemstone_title
+    #       end           
+    #     end
+    #   end
+    gemstone_list = Gemstone.select(:name)
+    @gemstones = gemstone_list.uniq    
+  end
+
+  def sync
+    Gemstone.delete_all
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
       products = []
@@ -25,14 +47,19 @@ class HomesController < ApplicationController
         end
         gemstone_list = []
         products.each do |p|
-        if p.options.last.name == 'Gemstone'
-          gemstone = p.options.last.values
-          gemstone.each do |gemstone_title|
-            gemstone_list << gemstone_title
-          end           
+          if p.options.last.name == 'Gemstone'
+            gemstone = p.options.last.values
+            gemstone.each do |gemstone_title|
+              gemstone_list << gemstone_title
+            end           
+          end
         end
-      end
-    @gemstones = gemstone_list.uniq    
+        @gems = gemstone_list.uniq
+        @gems.each do |gemstone|
+          Gemstone.create(:name => gemstone)
+        end 
+       redirect_to diamond_values_homes_path, notice: "Successfully Synchronised."
+           
   end
 
   def update_variants_value
@@ -49,31 +76,39 @@ class HomesController < ApplicationController
         params_price = price
         params_diamond = params[:gemstones][ind]
         @mailer_variant = []
-        @metal_blank_product = []
+        @blank_metal_product = []
         @mailer_metal = []
+        @updated_metals = []
+        @product_mailer = []
 
         products.each do |product|        
           product.variants.each_with_index do |variant, index|
+
             if variant.option2 == params_diamond
-              metal = Product.where(:prod_id => product.id).first.metals.where(:name => variant.option1).first
+
+              metal = Product.includes(:metals).where(:prod_id => product.id).first.metals.where(:name => variant.option1).first
+              
               if metal.present?
-                db_price_value = metal.price
+                db_price_value = metal.price              
               end
-              if db_price_value.blank?
-                @metal_blank_product << product
+              if db_price_value == 0
+                @blank_metal_product << product.title
                 @mailer_variant << variant
                 @mailer_metal << variant.option1
               end
-              new_price = price.to_i + db_price_value.to_i
+              new_price = price.to_f + db_price_value.to_f
               variant.price = new_price.to_s
-              variant.save
+              variant.save           
+
+              @updated_metals << variant
+              @product_mailer << product.title
               @count = @count + 1 
             end
           end
         end
       end
     end  
-      ExampleMailer.sample_email(User.first, @mailer_variant, @count, @metal_blank_product, @mailer_metal).deliver
+      ExampleMailer.sample_email(User.first, @mailer_variant, @count, @blank_metal_product, @mailer_metal, @updated_metals, @product_mailer).deliver
       redirect_to diamond_values_homes_path, notice: "#{@count} Variant's price was successfully updated."
     
   end

@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151201063629) do
+ActiveRecord::Schema.define(version: 20151217100258) do
+
+  create_table "gemstones", force: :cascade do |t|
+    t.string "name", limit: 255
+  end
 
   create_table "metals", force: :cascade do |t|
     t.string   "name",       limit: 255
