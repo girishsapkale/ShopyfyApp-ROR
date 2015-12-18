@@ -42,7 +42,7 @@ jQuery(document).ready(function(){
     },
     "drawCallback": function(settings){
               $('tr > td:odd').each(function(index) {
-                var scale = [['depopulated', 'depopulated'], ['partially_filled', 'partially_filled'], ['populated', 'all_filled']];
+                var scale = [['unfilled', 'unfilled'], ['partially_filled', 'partially_filled'], ['populated', 'all_filled']];
                 var score = $(this).text();
                 for (var i = 0; i < scale.length; i++) {
                   if (score == scale[i][1]) {
@@ -54,12 +54,12 @@ jQuery(document).ready(function(){
               }
             });
               $('tr > td:nth-child(2)').each(function(index) {
-                var scale = [['label-primary', 'depopulated'], ['label-warning', 'partially_filled'], ['label-success', 'all_filled']];
+                var scale = [['label-primary', 'unfilled'], ['label-warning', 'partially_filled'], ['label-success', 'all_filled']];
                 var score = $(this).text();
                 
                   switch (score) {
                   
-case "depopulated": $(this).html("<span class='label label-primary'>depopulated</span>"); break;
+case "unfilled": $(this).html("<span class='label label-primary'>unfilled</span>"); break;
 case "partially_filled": $(this).html("<span class='label label-warning'>Partially filled</span>"); break;
 case "all_filled": $(this).html("<span class='label label-success'>All Filled</span>"); break;
  
@@ -108,7 +108,7 @@ case "all_filled": $(this).html("<span class='label label-success'>All Filled</s
     },
     "drawCallback": function(settings){
             $('tr > td:nth-child(3)').each(function(index) {
-                var scale = [['depopulated', '0'], ['populated', '1']];
+                var scale = [['unfilled', '0'], ['populated', '1']];
                 var score = $(this).text();
                 for (var i = 0; i < scale.length; i++) {
                   if (score >= scale[i][1]) {
@@ -129,7 +129,7 @@ case "all_filled": $(this).html("<span class='label label-success'>All Filled</s
     var $row = $(this).parents('tr'); 
     i = $row.find('td:eq(1) input').val();
     if(i==0){
-      $row.addClass( "depopulated" );
+      $row.addClass( "unfilled" );
       };
     
 

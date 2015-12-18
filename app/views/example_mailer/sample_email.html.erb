@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,41 +5,47 @@
   </head>
   <body>
     <h3>Hi Admin</h3>
-    <p>
-      <table>
-      	<tr>
-      		<td>Total no. of updated variants: <%= @count%></td> 
-        </tr>
-        <% if @mailer_metal.present? %>
-        <tr>
-          <td>Metal's where price is ZERO in database and updated with price of gemstone</td> 
-        </tr>
-        <tr>
-          <table>
-            <tr> 
-              <th>Product </th><th>Metals</th>
-            </tr>
-            <% @mailer_metal.each_with_index do |metal, index|%>
-              <tr><td><%= @blank_metal_product[index] %></td><td><%= metal%></td> </tr> 
-              <% end %>
-          </table>
-        </tr>
-        <% end %>
-      </table>
-    </p>
-    <h3> Updated products : </h3>
-    <table>
+    </br>
+    <h1>Total no. of updated variants: <%= @count%></h1>    
+    <h3> All updated product/variants list : </h3>
+    <table style="border-style: outset;">
       <thead>
-        <th>#</th><th> Product name </th><th>Variant</th><th>Updated Price </th>
+        <th>#</th>
+        <th> Product name </th>
+        <th>Variant</th>
+        <th>Updated Price </th>
       </thead>
       <tbody>
-    <% @updated_metals.each_with_index do |variant, index| %>
-    
-    <tr><td><%= index+1 %><td> <%= @product_mailer[index] %></td><td><%= variant.title %></td><td><%= variant.price %></td>
-    </tr>
-
-    <% end %>
-  </tbody>
+        <% @updated_metals.each_with_index do |variant, index| %>
+        <tr>
+          <td style="border: 1px solid black;"><%= index+1 %>
+          <td style="border: 1px solid black;"> <%= @product_mailer[index] %></td>
+          <td style="border: 1px solid black;"><%= variant.title %></td>
+          <td style="border: 1px solid black;"><%= variant.price %></td>
+        </tr>
+        <% end %>
+      </tbody>
     </table>
+    <p>
+      <% if @mailer_metal.present? %>
+    <h3>Metal's price not set list : </h3>
+    <table style="border-style: outset;">
+      <thead>
+        <th>#</th>
+        <th>Product </th>
+        <th>Metals</th>
+      </thead>
+      <tbody>
+        <% @mailer_metal.each_with_index do |metal, index|%>
+        <tr>
+          <td style="border: 1px solid black;"><%= index+1 %></td>
+          <td style="border: 1px solid black;"><%= @blank_metal_product[index] %></td>
+          <td style="border: 1px solid black;"><%= metal%></td>
+        </tr>
+        <% end %>
+        <% end %>
+      </tbody>
+    </table>
+    </p>
   </body>
 </html>

@@ -12,7 +12,7 @@ class Metal < ActiveRecord::Base
 		elsif filled < total && filled > 0
   		product.update_attributes(:status => "partially_filled")
 		else
- 			product.update_attributes(:status => "depopulated")
+ 			product.update_attributes(:status => "unfilled")
 		end
 	end
 end

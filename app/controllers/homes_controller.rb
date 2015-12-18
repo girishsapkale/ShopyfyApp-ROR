@@ -63,6 +63,7 @@ class HomesController < ApplicationController
   end
 
   def update_variants_value
+    @emailid = current_user.email
     @total_products = ShopifyAPI::Product.count
     @total_pages = (@total_products / 250.0).ceil
     products = []
@@ -108,7 +109,7 @@ class HomesController < ApplicationController
         end
       end
     end  
-      ExampleMailer.sample_email(User.first, @mailer_variant, @count, @blank_metal_product, @mailer_metal, @updated_metals, @product_mailer).deliver
+      ExampleMailer.sample_email(@emailid, @mailer_variant, @count, @blank_metal_product, @mailer_metal, @updated_metals, @product_mailer).deliver
       redirect_to diamond_values_homes_path, notice: "#{@count} Variant's price was successfully updated."
     
   end
