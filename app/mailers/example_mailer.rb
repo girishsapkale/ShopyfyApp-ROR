@@ -9,7 +9,6 @@ class ExampleMailer < ActionMailer::Base
     @count = count
     @mailer_metal = mailer_metal
     @product_mailer = product_mailer
-  	byebug
     mail(to: @user.email, subject: 'Shopify store varient update Email')
   end
 end
