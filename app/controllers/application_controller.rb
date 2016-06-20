@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :authenticate_user!
+  before_action :print_shop
   #before_action :check_shop_url
 
   layout 'admin_lte_2'
@@ -14,5 +15,13 @@ class ApplicationController < ActionController::Base
 
  	def shop_not_found
  		redirect_to set_shop_homes_path
+ 	end
+
+ 	def print_shop
+ 	  if Shop.last
+ 	    @shop_link_kr = Shop.last.url
+ 	  else
+        @shop_link_kr = 'No shop found.'
+ 	  end  
  	end
 end
