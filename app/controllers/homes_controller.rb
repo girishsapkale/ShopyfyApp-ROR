@@ -176,7 +176,7 @@ class HomesController < ApplicationController
 
  def check_shop
   if Shop.first.nil?
-    Shop.create(:url => "https://5000b6fab6a48677813d80080e505c18:1eebe1b232ede28bfa0e68c673a317d7@rormobikasa.myshopify.com/admin")
+    Shop.create(:url => "https://3c33cb8a597561c457dd429d9ef72fc8:1c2753c8811b76262ccc6aa3f27dda9f@bylu.myshopify.com/admin")
     ShopifyAPI::Base.site = Shop.last.url
   else
     shop_url = Shop.last.url
