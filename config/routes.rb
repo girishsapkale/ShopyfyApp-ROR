@@ -29,5 +29,6 @@ Rails.application.routes.draw do
   namespace :webhooks do
     post 'create_product'
     post 'update_product'
+    post 'delete_product'
   end
 end
