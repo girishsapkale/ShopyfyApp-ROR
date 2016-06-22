@@ -14,7 +14,8 @@ class WebhooksController < ApplicationController
       end
     end
     respond_to do |format|          
-            format.json { render nothing: true, status: :created, location: @product }         
+      format.json { render message: 'OK', status: true, status: 200 }
+      #render json: {message: 'User log out!', status: true}, status: 200         
     end
   end
 
@@ -35,7 +36,8 @@ class WebhooksController < ApplicationController
  		@product.product_type = params[:product_type]
     @product.save 	         
     respond_to do |format|     
-       	format.json { render nothing: true, status: :created, location: @product } 
+      #format.json { render nothing: true, status: :created, location: @product }
+      format.json { render message: 'OK', status: true, status: 200 } 
     end
    
   end
