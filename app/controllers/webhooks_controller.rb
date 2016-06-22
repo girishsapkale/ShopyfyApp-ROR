@@ -56,7 +56,7 @@ class WebhooksController < ApplicationController
     if @product.present? 
       @product.destroy
     end  
-    render json: {message: "Invalid email or password.", status: false}, status: 200
+    render json: {message: "OK", status: true}, status: 200
     #respond_to do |format|      
       #format.json { render message: 'OK', status: true, status: 200 }       
     #end
