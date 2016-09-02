@@ -32,7 +32,7 @@ class HomesController < ApplicationController
 
   def update_variants_value
     alert = 1
-    params[:prices].each { |price| alert = 0 if price.to_i == 0 }
+    params[:prices].each { |price| alert = 0 if price == '0' }
     if alert == 0
       flash[:notice] = "Please set the valid price, not 0"
       redirect_to diamond_values_homes_path
