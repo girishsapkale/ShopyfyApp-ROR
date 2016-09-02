@@ -1,7 +1,11 @@
-<h4>There is no SHOP, kindly Set SHOP</h4></br>
+<h4>Shopify Store URL Setup</h4></br>
+<% if @shop_link_kr %>
+  <p><b style="color:#3c8dbc;">Current Shopify Store URL:</b> <b style="color:green;"><%= @shop_link_kr %></b></p>
+<% else %>
+  <p>Currently No Any Shopify Store URL Found.</p>
+<% end %></br>
 <%= form_tag '/homes/update_shopify_url', :method => 'put', :class => "form-inline" do %>
 <div class="form-group">
-   <%#= text_field_tag :query_1, params[:query], placeholder: "Enter gemstone", class: "form-control"%>
    <%= text_field_tag :url, params[:query], placeholder: "https://5000b6fab6a48677813d80080e505c18:1eebe1b232ede28bfa0e68c673a317d7@shopname.myshopify.com/admin", :size=>"130", class: "form-control"%>
 </div>
 <button type="submit" class="btn btn-warning">Update URL</button>

@@ -1,32 +1,36 @@
-<%= form_for(@metal) do |f| %>
-
-
 <div class="modal-dialog"  style="top: 15em;">
-<div class="modal-content">
-   
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><%= @metal.product.title %> with metal: <%= @metal.name %> </h4>
-      </div>
-      <div class="modal-body">
-             <% if @metal.errors.any? %>
-    <h5>
-      <%= pluralize(@metal.errors.count, "error") %> prohibited this metal from being saved:
-
-      <h5>
+  <div class="modal-content">
+    <%= form_for(@metal) do |f| %>   
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title"><%= @metal.product.title %> with metal: <%= @metal.name %> </h4>
+    </div>
+    <div class="modal-body">
+      <% if @metal.errors.any? %>
+      <h5><%= pluralize(@metal.errors.count, "error") %> prohibited this metal from being saved:
+      </h5>
       <% @metal.errors.full_messages.each do |message| %>
-        <p><%= message %></p>
+      <p><%= message %></p>
       <% end %>
       </p>
-    </p>
-  <% end %>
-        <p><%= f.label :price %>: <%= f.text_field :price %></p>
-      </div>
-      <div class="modal-footer">
-        <%= submit_tag 'Save Changes' , class: 'btn btn-danger cursor_wait' %>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+      </p>
+      <% end %>
+      <p><%= f.label :price %>: <%= f.text_field :price, class: "number" %></p>
+    </div>
+    <div class="modal-footer">
+      <%= submit_tag 'Save Changes' , class: 'btn btn-danger cursor_wait' %>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    <% end %>
   </div>
-
-  </div>
-<% end %>
+</div>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+  type="text/javascript"></script>
+<script>
+  $('.number').keypress(function(event) {
+    if(event.which == 8 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46) 
+      return true;
+    else if((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57))
+      event.preventDefault();
+  });
+</script>

@@ -17,10 +17,6 @@ class WebhooksController < ApplicationController
       end
     end
     render json: {message: "OK", status: true}, status: 200
-    # respond_to do |format|          
-    #   format.json { render message: 'OK', status: true, status: 200 }
-    #   #render json: {message: 'User log out!', status: true}, status: 200         
-    # end
   end
 
   def update_product
@@ -44,11 +40,7 @@ class WebhooksController < ApplicationController
  		  @product.product_type = params[:product_type]
       @product.save
     end
-    render json: {message: "OK", status: true}, status: 200   	         
-    # respond_to do |format|     
-    #   #format.json { render nothing: true, status: :created, location: @product }
-    #   format.json { render message: 'OK', status: true, status: 200 } 
-    # end   
+    render json: {message: "OK", status: true}, status: 200  
   end
 
   def delete_product
@@ -57,8 +49,5 @@ class WebhooksController < ApplicationController
       @product.destroy
     end  
     render json: {message: "OK", status: true}, status: 200
-    #respond_to do |format|      
-      #format.json { render message: 'OK', status: true, status: 200 }       
-    #end
   end
 end

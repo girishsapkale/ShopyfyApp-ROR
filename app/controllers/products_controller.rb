@@ -8,43 +8,13 @@ class ProductsController < ApplicationController
   def index    
     products = Product.all
     if products.blank?
-      @total_products = ShopifyAPI::Product.count
-      @total_pages = (@total_products / 250.0).ceil
-      @products = []
-      @total_pages.times do |x|
-        page = x+1
-        @products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
-      end
-      @products.each do |product|
-        if product.options.first.name == 'Metal'
-            element = Product.new
-            element.title = product.title
-            element.product_type = product.product_type
-            element.prod_id = product.id
-            product.options.first.values.each do |title|
-              element.metals.build(:name => title.downcase ,:price => 0)
-            end 
-            # if product.options.last.name == 'Gemstone'
-            #   product.options.last.values.each do |title|
-            #     element.gemstones.build(:name => title ,:price => 0)
-            #   end 
-            # end
-            # product.variants.each do |var|
-            #  element.metals.build(:name => var.option1, :gemstone => var.option2, :price => 0)
-            # end      
-            element.save!
-           
-        end      
-      end
-      webhooks = ShopifyAPI::Webhook.all
-      webhooks.each do |x|
-        x.destroy
-      end
-      update_webhook = ShopifyAPI::Webhook.new({:topic => "products/update", :address => "http://rorapp.mobikasa.com/webhooks/update_product", :format => "json"})
-      update_webhook.save!
-      create_webhook = ShopifyAPI::Webhook.new({:topic => "products/create", :address => "http://rorapp.mobikasa.com/webhooks/create_product", :format => "json"})
-      create_webhook.save!
-    end
+      $globl = 0 if $globl == nil
+      @alert_msg = 'Fetching all products from Shopify shop, It will take time. Please refresh page after 1 minute.'
+      if $globl == 0      
+        Product.delay.get_all_metal_products       
+      end  
+      $globl = 1 
+    end    
     @products = Product.includes(:metals)
   end
 
@@ -55,13 +25,13 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @api_product = ShopifyAPI::Product.find(@product.prod_id)
        
-    metals_list = []
+    metals_list = []    
 
     if @api_product.options.first.name == 'Metal'
-        metals = @api_product.options.first.values
-        metals.each do |metal_title|
-          metals_list << metal_title.downcase
-        end           
+      metals = @api_product.options.first.values
+      metals.each do |metal_title|
+        metals_list << metal_title.downcase
+      end           
     end
    
     @metals = metals_list.uniq    
@@ -106,15 +76,6 @@ class ProductsController < ApplicationController
   # POST /products
   # POST /products.json
   def create
-    # respond_to do |format|
-    #   if @product.save
-    #     format.html { redirect_to @product, notice: 'Product was successfully created.' }
-    #     format.json { render :show, status: :created, location: @product }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @product.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
 
@@ -123,10 +84,12 @@ class ProductsController < ApplicationController
   def update_metal_prices
     @product = Product.find(params[:id])
     params[:ids].each_with_index do |metal_id, index|
-        @variant = @product.metals.find(metal_id)
-        @variant.update(:price => params[:prices][index])
+      @variant = @product.metals.find(metal_id)
+      @variant.update(:price => params[:prices][index])
     end
-      redirect_to @product, notice: 'Product was successfully updated.' 
+    @product.flag = false
+    @product.save!
+    redirect_to @product, notice: 'Product was successfully updated.' 
   end
 
   def reload_products
@@ -158,7 +121,8 @@ class ProductsController < ApplicationController
 
     def check_shop
       if Shop.first.nil?
-        Shop.create(:url => "https://3c33cb8a597561c457dd429d9ef72fc8:1c2753c8811b76262ccc6aa3f27dda9f@bylu.myshopify.com/admin")
+        #Shop.create(:url => "https://3c33cb8a597561c457dd429d9ef72fc8:1c2753c8811b76262ccc6aa3f27dda9f@bylu.myshopify.com/admin")
+        Shop.create(:url => "https://5000b6fab6a48677813d80080e505c18:1eebe1b232ede28bfa0e68c673a317d7@rormobikasa.myshopify.com/admin")
         ShopifyAPI::Base.site = Shop.last.url
       else
         shop_url = Shop.last.url

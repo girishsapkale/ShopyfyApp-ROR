@@ -15,107 +15,40 @@ class HomesController < ApplicationController
   end
   
   def diamond_values
-  
-    # @total_products = ShopifyAPI::Product.count
-    # @total_pages = (@total_products / 250.0).ceil
-    #   products = []
-    #     @total_pages.times do |x|
-    #       page = x+1
-    #       products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
-    #     end
-    #     gemstone_list = []
-    #     products.each do |p|
-    #     if p.options.last.name == 'Gemstone'
-    #       gemstone = p.options.last.values
-    #       gemstone.each do |gemstone_title|
-    #         gemstone_list << gemstone_title
-    #       end           
-    #     end
-    #   end
-    gemstone_list = Gemstone.select(:name)
-    @gemstones = gemstone_list.uniq    
+    gemstone_list = Gemstone.all
+    @gemstones = gemstone_list.uniq
+    if @gemstones.present?
+      $alrtb = 0    
+    end
+    $alrtbb = $alrtbb + 1 if $alrtbb  
   end
 
   def sync
-    Gemstone.delete_all
-    @total_products = ShopifyAPI::Product.count
-    @total_pages = (@total_products / 250.0).ceil
-      products = []
-        @total_pages.times do |x|
-          page = x+1
-          products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
-        end
-        gemstone_list = []
-        products.each do |p|
-          if p.options.last.name == 'Gemstone'
-            gemstone = p.options.last.values
-            gemstone.each do |gemstone_title|
-              gemstone_list << gemstone_title
-            end           
-          end
-        end
-        @gems = gemstone_list.uniq
-        @gems.each do |gemstone|
-          Gemstone.create(:name => gemstone)
-        end 
-       redirect_to diamond_values_homes_path, notice: "Successfully Synchronised."
-           
+    Gemstone.delete_all    
+    Gemstone.delay.synchronization
+    $alrtb = 1
+    redirect_to diamond_values_homes_path
   end
 
   def update_variants_value
-    @emailid = current_user.email
-    @total_products = ShopifyAPI::Product.count
-    @total_pages = (@total_products / 250.0).ceil
-    products = []
-    @count = 0
-    @total_pages.times do |x|
-      page = x+1
-      products += ShopifyAPI::Product.find(:all, :params => {:limit => 250, :page => page})
-    end
-    params[:prices].each_with_index do |price, ind|
-      if price.present?
-        params_price = price
-        params_diamond = params[:gemstones][ind]
-        @mailer_variant = []
-        @blank_metal_product = []
-        @mailer_metal = []
-        @updated_metals = []
-        @product_mailer = []
-
-        products.each do |product|        
-          product.variants.each_with_index do |variant, index|
-
-            if variant.option2 == params_diamond
-
-              metal = Product.includes(:metals).where(:prod_id => product.id).first.metals.where(:name => variant.option1).first
-              
-              if metal.present?
-                db_price_value = metal.price              
-              end
-              if db_price_value == 0
-                @blank_metal_product << product.title
-                @mailer_variant << variant
-                @mailer_metal << variant.option1
-              end
-              new_price = price.to_f + db_price_value.to_f
-              variant.price = new_price.to_s
-              variant.save           
-
-              @updated_metals << variant
-              @product_mailer << product.title
-              @count = @count + 1 
-            end
-          end
-        end
-      end
+    alert = 1
+    params[:prices].each { |price| alert = 0 if price.to_i == 0 }
+    if alert == 0
+      flash[:notice] = "Please set the valid price, not 0"
+      redirect_to diamond_values_homes_path
+    else
+      Variant.delay.update_variants_value(params,current_user.email)
+      $alrtbb = 1
+      redirect_to diamond_values_homes_path
     end  
-      ExampleMailer.sample_email(@emailid, @mailer_variant, @count, @blank_metal_product, @mailer_metal, @updated_metals, @product_mailer).deliver
-      redirect_to diamond_values_homes_path, notice: "#{@count} Variant's price was successfully updated."
-    
   end
   
-  def set_shop
-    flash[:notice] = "Please set the correct shop url"
+  def set_shop    
+    if Shop.last
+      @shop_link_kr = Shop.last.url
+    else      
+      flash[:notice] = "Please set the correct shop url"
+    end
   end
 
   def shopify_url
@@ -176,7 +109,8 @@ class HomesController < ApplicationController
 
  def check_shop
   if Shop.first.nil?
-    Shop.create(:url => "https://3c33cb8a597561c457dd429d9ef72fc8:1c2753c8811b76262ccc6aa3f27dda9f@bylu.myshopify.com/admin")
+    #Shop.create(:url => "https://3c33cb8a597561c457dd429d9ef72fc8:1c2753c8811b76262ccc6aa3f27dda9f@bylu.myshopify.com/admin")
+    Shop.create(:url => "https://5000b6fab6a48677813d80080e505c18:1eebe1b232ede28bfa0e68c673a317d7@rormobikasa.myshopify.com/admin")
     ShopifyAPI::Base.site = Shop.last.url
   else
     shop_url = Shop.last.url

@@ -18,7 +18,10 @@ class MetalsController < ApplicationController
   end
 
   # GET /metals/1/edit
-  def edit
+  def edit     
+    @product = Product.find(@metal.product.id)
+    @api_product = ShopifyAPI::Product.find(@metal.product.prod_id)
+
     respond_to do |format|      
       format.js
     end
@@ -45,6 +48,9 @@ class MetalsController < ApplicationController
   def update
     respond_to do |format|
       if @metal.update(metal_params)
+        @product = @metal.product
+        @product.flag = false
+        @product.save!
         format.html { redirect_to metals_url, notice: "'#{@metal.product.title}' product with metal '#{@metal.name}' was successfully updated." }
         format.json { render :show, status: :ok, location: @metal }
       else

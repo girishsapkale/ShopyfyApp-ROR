@@ -1,51 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
-  </head>
-  <body>
-    <h3>Hi Admin</h3>
-    </br>
-    <h1>Total no. of updated variants: <%= @count%></h1>    
-    <h3> All updated product/variants list : </h3>
-    <table style="border-style: outset;">
-      <thead>
-        <th>#</th>
-        <th> Product name </th>
-        <th>Variant</th>
-        <th>Updated Price </th>
-      </thead>
-      <tbody>
-        <% @updated_metals.each_with_index do |variant, index| %>
-        <tr>
-          <td style="border: 1px solid black;"><%= index+1 %>
-          <td style="border: 1px solid black;"> <%= @product_mailer[index] %></td>
-          <td style="border: 1px solid black;"><%= variant.title %></td>
-          <td style="border: 1px solid black;"><%= variant.price %></td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <p>
-      <% if @mailer_metal.present? %>
-    <h3>Metal's price not set list : </h3>
-    <table style="border-style: outset;">
-      <thead>
-        <th>#</th>
-        <th>Product </th>
-        <th>Metals</th>
-      </thead>
-      <tbody>
-        <% @mailer_metal.each_with_index do |metal, index|%>
-        <tr>
-          <td style="border: 1px solid black;"><%= index+1 %></td>
-          <td style="border: 1px solid black;"><%= @blank_metal_product[index] %></td>
-          <td style="border: 1px solid black;"><%= metal%></td>
-        </tr>
-        <% end %>
-        <% end %>
-      </tbody>
-    </table>
-    </p>
-  </body>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+</style>
+</head>
+<body>
+
+<h3>Hi Admin</h3></br>
+<h3>Total no. of updated variants: <%= @count%></h3>    
+<h3> All updated product/variants list : </h3></br>
+<table style="width:100%">
+  <tr>
+    <th>#</th>
+    <th>Product name</th>
+    <th>Variant</th>
+    <th>Updated price</th>
+  </tr>
+  <% @updated_metals.each_with_index do |variant, index| %>
+  <tr>
+    <td><%= index+1 %>
+    <td> <%= @product_mailer[index] %></td>
+    <td><%= variant.title %></td>
+    <td><%= variant.price %></td>
+  </tr>
+  <% end %>
+</table>
+</br>
+<% if @mailer_metal.present? %>
+<h3>Metal's price not set list : </h3>
+<table style="width:100%">
+  <tr>
+    <th>#</th>
+    <th>Product name</th>
+    <th>Metals</th>
+  </tr>
+  <% @mailer_metal.each_with_index do |metal, index|%>
+  <tr>
+    <td><%= index+1 %></td>
+    <td><%= @blank_metal_product[index] %></td>
+    <td><%= metal %></td>
+  </tr>
+  <% end %>
+</table>
+<% end %>
+</body>
 </html>
