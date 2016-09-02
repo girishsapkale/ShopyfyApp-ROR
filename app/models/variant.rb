@@ -51,7 +51,7 @@ class Variant < ActiveRecord::Base
                 if metal.price == 0
                   db_price_value = 0
                 else
-                  db_price_value = metal.price
+                  db_price_value = metal.price.to_f
                 end                
                 metal_product_id = metal.product_id              
               end
@@ -67,8 +67,8 @@ class Variant < ActiveRecord::Base
                 shopify_variant.save
                 VariantBackup.create(:title => shopify_variant.title, :sku => shopify_variant.sku, :product_id => metal_product_id,
                   :store_variant_id => shopify_variant.id, :store_product_id => shopify_variant.product_id,
-                  :position => shopify_variant.position, :initial_price => old_price.to_i, :status => 'delay_updated',
-                  :current_price => shopify_variant.price.to_i, :updated_prices => "#{old_price},#{shopify_variant.price}")
+                  :position => shopify_variant.position, :initial_price => old_price.to_f, :status => 'delay_updated',
+                  :current_price => shopify_variant.price.to_f, :updated_prices => "#{old_price},#{shopify_variant.price}")
 
                 @updated_metals << shopify_variant
                 @product_mailer << shopify_product.title

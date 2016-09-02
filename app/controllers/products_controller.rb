@@ -57,7 +57,7 @@ class ProductsController < ApplicationController
       new_metal = @metals - @a     
       if new_metal.present?
         new_metal.each do |y|          
-          @product.metals.build(:name => y, :price => 0).save! 
+          @product.metals.build(:name => y, :price => '0').save! 
         end
       end
     #end
@@ -85,7 +85,8 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     params[:ids].each_with_index do |metal_id, index|
       @variant = @product.metals.find(metal_id)
-      @variant.update(:price => params[:prices][index])
+      @variant.price = params[:prices][index]
+      @variant.save!
     end
     @product.flag = false
     @product.save!

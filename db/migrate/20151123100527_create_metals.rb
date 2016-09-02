@@ -3,7 +3,7 @@ class CreateMetals < ActiveRecord::Migration
     create_table :metals do |t|
       t.string :name
       t.string :gemstone
-      t.integer :price, default: 0
+      t.string :price
       t.belongs_to :product, foreign_key: true
 
       t.timestamps null: false

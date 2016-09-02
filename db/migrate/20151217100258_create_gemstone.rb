@@ -3,7 +3,7 @@ class CreateGemstone < ActiveRecord::Migration
     create_table :gemstones do |t|
       t.string :name
       #t.belongs_to :product, index: true, foreign_key: true
-      #t.integer :price
+      t.string :price
     end
   end
 end

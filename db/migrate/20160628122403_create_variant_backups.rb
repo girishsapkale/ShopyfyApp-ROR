@@ -8,8 +8,8 @@ class CreateVariantBackups < ActiveRecord::Migration
       t.string :store_variant_id
       t.string :store_product_id
       t.integer :position, default: 0
-      t.integer :initial_price, default: 0
-      t.integer :current_price
+      t.string :initial_price
+      t.string :current_price
       t.text :updated_prices
 
       t.timestamps null: false

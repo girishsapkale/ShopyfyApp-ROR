@@ -4,6 +4,7 @@ class CreateProducts < ActiveRecord::Migration
       t.string :title
       t.string :prod_id
       t.string :product_type
+      t.boolean :flag, default: 0
 
       t.timestamps null: false
     end

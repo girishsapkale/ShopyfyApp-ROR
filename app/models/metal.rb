@@ -1,6 +1,7 @@
 class Metal < ActiveRecord::Base
   belongs_to :product
-  validates :price, numericality: { only_integer: true }
+  #validates :price, numericality: { only_integer: true }
+  validates_presence_of :price
   after_save :status_update
 
   def status_update
