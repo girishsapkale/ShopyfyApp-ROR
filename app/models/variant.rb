@@ -25,7 +25,7 @@ class Variant < ActiveRecord::Base
 
     params[:prices].each_with_index do |price, ind|
       if price.present?
-        params_price = price
+        params_price = price.to_f
         params_diamond = params[:gemstones][ind]
 
         gemst = Gemstone.find_by_name(params_diamond)
@@ -62,7 +62,9 @@ class Variant < ActiveRecord::Base
               end
               if db_price_value != 0
               	old_price = shopify_variant.price
-                new_price = params_price.to_f + db_price_value.to_f
+                #new_price = params_price.to_f + db_price_value.to_f
+                new_price = (params_price + db_price_value).round(2)
+                #Rails.logger.info "logging from after delayed_job"
                 shopify_variant.price = new_price.to_s              
                 shopify_variant.save
                 VariantBackup.create(:title => shopify_variant.title, :sku => shopify_variant.sku, :product_id => metal_product_id,
