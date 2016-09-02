@@ -4,8 +4,7 @@ class Variant < ActiveRecord::Base
   def self.update_variants_value(params,usr_email)
   	ShopifyAPI::Base.site = Shop.last.url
 
-  	#@emailid = 'neha@mobikasa.com'
-    @emailid = 'aniltimt@gmail.com'
+    @emailid = 'ashim@mobikasa.com'
     #@total_products = ShopifyAPI::Product.count
     #@total_pages = (@total_products / 250.0).ceil
     #products = []
